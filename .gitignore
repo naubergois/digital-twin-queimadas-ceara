@@ -1,0 +1,21 @@
+# Dados baixados
+/data/
+*.csv
+*.geojson
+*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
