@@ -4,16 +4,23 @@
 *.geojson
 *.json
 
+# Segredos (nunca commitar)
+.env
+.env.*
+
 # Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
+.venv-capture/
+.mplconfig/
 venv/
 
-# IDE
+# IDE / ferramentas locais
 .idea/
 .vscode/
+.claude/
 *.swp
 
 # OS

@@ -322,3 +322,44 @@ class FireDigitalTwin:
 
         print(f"[TWIN] Estado exportado para {path}")
         return state
+
+    def blend_goes16_unsupervised_risk(self, goes_report: dict, weight: float = 0.28) -> None:
+        """Mescla risco GOES-16 não supervisionado (grade proxy ABI) ao `risk_grid`."""
+        from src.goes_unsupervised_twin import merge_goes_risk_into_digital_twin
+
+        merge_goes_risk_into_digital_twin(self, goes_report, weight=float(weight))
+
+    def blend_st_hypernet_risk(self, st_report: dict, weight: float = 0.22) -> None:
+        """Mescla grade agregada ST-HyperNet (fundo + ruptura) ao `risk_grid`."""
+        from src.st_hypernet import merge_st_hypernet_into_digital_twin
+
+        merge_st_hypernet_into_digital_twin(self, st_report, weight=float(weight))
+
+    def overlay_rgba_uint8(self):
+        """
+        Imagem RGBA (uint8) para sobrepor no mapa após simulate().
+        Linha 0 = norte (max_lat). Bounds: [[south, west], [north, east]] para Folium.
+
+        Returns:
+            (array shape (n_lat, n_lon, 4), bounds)
+        """
+        if self.fire_grid is None or self.burned_grid is None:
+            z = np.zeros((1, 1, 4), dtype=np.uint8)
+            b = (
+                [CEARA_BBOX["min_lat"], CEARA_BBOX["min_lon"]],
+                [CEARA_BBOX["max_lat"], CEARA_BBOX["max_lon"]],
+            )
+            return z, b
+
+        rgba = np.zeros((self.n_lat, self.n_lon, 4), dtype=np.float32)
+        burned = self.burned_grid > 0
+        burning = self.fire_grid > 0
+        rgba[burned] = [217, 48, 37, 115]
+        rgba[burning] = [255, 140, 0, 190]
+        # i=0 corresponde a min_lat (sul); primeira linha da imagem deve ser norte
+        img = np.flipud(rgba).astype(np.uint8)
+        bounds = (
+            [CEARA_BBOX["min_lat"], CEARA_BBOX["min_lon"]],
+            [CEARA_BBOX["max_lat"], CEARA_BBOX["max_lon"]],
+        )
+        return img, bounds

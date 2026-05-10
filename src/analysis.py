@@ -21,6 +21,8 @@ class FireAnalysis:
     def __init__(self, df: Optional[pd.DataFrame] = None):
         self.df = df
         self._results = {}
+        if self.df is not None and not self.df.empty:
+            self._preprocess()
 
     def load_data(self, df: pd.DataFrame):
         """Carrega dataset de focos."""

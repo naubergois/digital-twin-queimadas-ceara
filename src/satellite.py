@@ -138,20 +138,22 @@ def fetch_firms_fires(
               "Use export FIRMS_API_KEY=seu_token ou .env")
         return []
 
+    # Documentação NASA FIRMS Area API:
+    # /api/area/csv/[MAP_KEY]/[SOURCE]/[WEST,SOUTH,EAST,NORTH]/[DAY_RANGE]
+    # DAY_RANGE: 1–5 para área personalizada.
     base_url = "https://firms.modaps.eosdis.nasa.gov/api/area/csv"
-    day_range = min(day_range, 10)
-
-    params: dict[str, str | float] = {
-        "api_key": api_key,
-        "source": source,
-        "day_range": str(day_range),
-    }
+    day_range_clamped = min(max(int(day_range), 1), 5)
 
     if bbox:
-        params["min_lon"], params["min_lat"], params["max_lon"], params["max_lat"] = bbox
+        west, south, east, north = bbox
+        area = f"{west},{south},{east},{north}"
+        url = f"{base_url}/{api_key}/{source}/{area}/{day_range_clamped}"
+    else:
+        print("[satellite] FIRMS: informe bbox (west,south,east,north) para baixar por área.")
+        return []
 
     try:
-        resp = requests.get(base_url, params=params, timeout=30)
+        resp = requests.get(url, timeout=60)
         resp.raise_for_status()
 
         import csv
@@ -374,6 +376,11 @@ def satellite_layer_for_folium(layer_key: str) -> tuple[str, str, dict]:
             "NASA GIBS (MODIS Termal)",
             {"max_zoom": 7, "name": "MODIS Termal", "opacity": 0.7},
         ),
+        "gibs_viirs_fires": (
+            gibs_tile_url("viirs_fires"),
+            "NASA GIBS (VIIRS anomalias térmicas / focos)",
+            {"max_zoom": 8, "name": "VIIRS Focos (375m)", "opacity": 0.85},
+        ),
         "osm": (
             "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             "OpenStreetMap",
@@ -402,6 +409,9 @@ def available_satellite_sources() -> list[dict]:
          "type": "Tile", "free": True, "auth": False, "resolution": "250m"},
         {"id": "gibs_thermal", "name": "NASA MODIS Termal (Band 31)",
          "type": "Tile", "free": True, "auth": False, "resolution": "1km"},
+        {"id": "gibs_viirs_fires", "name": "NASA VIIRS — Anomalias térmicas (focos)",
+         "type": "Tile", "free": True, "auth": False, "resolution": "375m",
+         "delay": "NRT"},
         {"id": "nasa_firms", "name": "NASA FIRMS (Focos Ativos)",
          "type": "API", "free": True, "auth": True,
          "note": "Requer FIRMS_API_KEY (gratuita em https://firms.modaps.eosdis.nasa.gov)"},
