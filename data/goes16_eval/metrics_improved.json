@@ -1,0 +1,92 @@
+[
+  {
+    "day": "2024-10-31",
+    "method": "spatial_residual",
+    "goes_nc": "/Volumes/NAUBER/digital-twin-queimadas-ceara/data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051800204_e20243051809523_c20243051809589.nc",
+    "contamination_used": 0.15161290322580645,
+    "channels": [
+      13
+    ],
+    "hours_utc": [
+      18
+    ],
+    "truth_dilate_iters": 1,
+    "twin_persistence": 0.5,
+    "twin_gaussian_sigma": 1.2,
+    "tp": 63.0,
+    "fp": 723.0,
+    "fn": 221.0,
+    "tn": 4177.0,
+    "precision": 0.08015267175572519,
+    "recall": 0.22183098591549297,
+    "f1": 0.11775700934579438,
+    "iou": 0.06256206554121152,
+    "accuracy": 0.8179012345679012,
+    "valid_cells": 5184.0,
+    "n_focos_inpe": 76,
+    "pred_cells": 786,
+    "truth_cells": 284,
+    "truth_cells_raw": 49,
+    "calibrated_contamination": true
+  },
+  {
+    "day": "2024-10-31",
+    "method": "isolation_forest",
+    "goes_nc": "/Volumes/NAUBER/digital-twin-queimadas-ceara/data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051800204_e20243051809523_c20243051809589.nc",
+    "contamination_used": 0.18,
+    "channels": [
+      13
+    ],
+    "hours_utc": [
+      18
+    ],
+    "truth_dilate_iters": 1,
+    "twin_persistence": 0.5,
+    "twin_gaussian_sigma": 1.2,
+    "tp": 57.0,
+    "fp": 876.0,
+    "fn": 227.0,
+    "tn": 4024.0,
+    "precision": 0.06109324758842444,
+    "recall": 0.2007042253521127,
+    "f1": 0.09367296631059983,
+    "iou": 0.04913793103448276,
+    "accuracy": 0.7872299382716049,
+    "valid_cells": 5184.0,
+    "n_focos_inpe": 76,
+    "pred_cells": 933,
+    "truth_cells": 284,
+    "truth_cells_raw": 49,
+    "calibrated_contamination": true
+  },
+  {
+    "day": "2024-10-31",
+    "method": "digital_twin",
+    "goes_nc": "/Volumes/NAUBER/digital-twin-queimadas-ceara/data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051800204_e20243051809523_c20243051809589.nc",
+    "contamination_used": 0.16864516129032256,
+    "channels": [
+      13
+    ],
+    "hours_utc": [
+      18
+    ],
+    "truth_dilate_iters": 1,
+    "twin_persistence": 0.5,
+    "twin_gaussian_sigma": 1.2,
+    "tp": 66.0,
+    "fp": 809.0,
+    "fn": 218.0,
+    "tn": 4091.0,
+    "precision": 0.07542857142857143,
+    "recall": 0.2323943661971831,
+    "f1": 0.11389128559102674,
+    "iou": 0.06038426349496798,
+    "accuracy": 0.8018904320987654,
+    "valid_cells": 5184.0,
+    "n_focos_inpe": 76,
+    "pred_cells": 875,
+    "truth_cells": 284,
+    "truth_cells_raw": 49,
+    "calibrated_contamination": true
+  }
+]

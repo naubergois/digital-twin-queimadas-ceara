@@ -1,0 +1,36 @@
+[
+  {
+    "day": "2024-10-31",
+    "method": "spatial_residual",
+    "goes_nc": "/Volumes/NAUBER/digital-twin-queimadas-ceara/data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051800204_e20243051809523_c20243051809589.nc",
+    "tp": 0.0,
+    "fp": 104.0,
+    "fn": 49.0,
+    "tn": 5031.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "iou": 0.0,
+    "valid_cells": 5184.0,
+    "n_focos_inpe": 76,
+    "pred_cells": 104,
+    "truth_cells": 49
+  },
+  {
+    "day": "2024-10-31",
+    "method": "isolation_forest",
+    "goes_nc": "/Volumes/NAUBER/digital-twin-queimadas-ceara/data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051800204_e20243051809523_c20243051809589.nc",
+    "tp": 1.0,
+    "fp": 103.0,
+    "fn": 48.0,
+    "tn": 5032.0,
+    "precision": 0.009615384615384616,
+    "recall": 0.02040816326530612,
+    "f1": 0.0130718954248366,
+    "iou": 0.006578947368421052,
+    "valid_cells": 5184.0,
+    "n_focos_inpe": 76,
+    "pred_cells": 104,
+    "truth_cells": 49
+  }
+]

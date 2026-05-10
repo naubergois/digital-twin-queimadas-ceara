@@ -1,0 +1,42 @@
+[
+  {
+    "day": "2024-10-31",
+    "method": "digital_twin",
+    "goes_nc": "3 ficheiros GOES",
+    "contamination_used": 0.1743225806451613,
+    "channels": [
+      7,
+      13,
+      14
+    ],
+    "hours_utc": [
+      18
+    ],
+    "truth_dilate_iters": 1,
+    "twin_persistence": 0.5,
+    "twin_gaussian_sigma": 1.2,
+    "twin_fusion": "prob_or",
+    "twin_threshold_mode": "gmm2",
+    "twin_lof_neighbors": 24,
+    "twin_multiscale_median_sizes": [
+      5,
+      9,
+      15
+    ],
+    "tp": 48.0,
+    "fp": 856.0,
+    "fn": 236.0,
+    "tn": 4044.0,
+    "precision": 0.05309734513274336,
+    "recall": 0.16901408450704225,
+    "f1": 0.0808080808080808,
+    "iou": 0.042105263157894736,
+    "accuracy": 0.7893518518518519,
+    "valid_cells": 5184.0,
+    "n_focos_inpe": 76,
+    "pred_cells": 904,
+    "truth_cells": 284,
+    "truth_cells_raw": 49,
+    "calibrated_contamination": true
+  }
+]

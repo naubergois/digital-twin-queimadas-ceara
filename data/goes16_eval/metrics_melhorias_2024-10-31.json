@@ -1,0 +1,116 @@
+[
+  {
+    "day": "2024-10-31",
+    "method": "spatial_residual",
+    "goes_nc": "/Volumes/NAUBER/digital-twin-queimadas-ceara/data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051800204_e20243051809523_c20243051809589.nc",
+    "contamination_used": 0.15161290322580645,
+    "channels": [
+      13
+    ],
+    "hours_utc": [
+      18
+    ],
+    "truth_dilate_iters": 1,
+    "twin_persistence": 0.5,
+    "twin_gaussian_sigma": 1.2,
+    "twin_fusion": "prob_or",
+    "twin_threshold_mode": "gmm2",
+    "twin_lof_neighbors": 24,
+    "twin_multiscale_median_sizes": [
+      5,
+      9,
+      15
+    ],
+    "tp": 63.0,
+    "fp": 723.0,
+    "fn": 221.0,
+    "tn": 4177.0,
+    "precision": 0.08015267175572519,
+    "recall": 0.22183098591549297,
+    "f1": 0.11775700934579438,
+    "iou": 0.06256206554121152,
+    "accuracy": 0.8179012345679012,
+    "valid_cells": 5184.0,
+    "n_focos_inpe": 76,
+    "pred_cells": 786,
+    "truth_cells": 284,
+    "truth_cells_raw": 49,
+    "calibrated_contamination": true
+  },
+  {
+    "day": "2024-10-31",
+    "method": "isolation_forest",
+    "goes_nc": "/Volumes/NAUBER/digital-twin-queimadas-ceara/data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051800204_e20243051809523_c20243051809589.nc",
+    "contamination_used": 0.18,
+    "channels": [
+      13
+    ],
+    "hours_utc": [
+      18
+    ],
+    "truth_dilate_iters": 1,
+    "twin_persistence": 0.5,
+    "twin_gaussian_sigma": 1.2,
+    "twin_fusion": "prob_or",
+    "twin_threshold_mode": "gmm2",
+    "twin_lof_neighbors": 24,
+    "twin_multiscale_median_sizes": [
+      5,
+      9,
+      15
+    ],
+    "tp": 57.0,
+    "fp": 876.0,
+    "fn": 227.0,
+    "tn": 4024.0,
+    "precision": 0.06109324758842444,
+    "recall": 0.2007042253521127,
+    "f1": 0.09367296631059983,
+    "iou": 0.04913793103448276,
+    "accuracy": 0.7872299382716049,
+    "valid_cells": 5184.0,
+    "n_focos_inpe": 76,
+    "pred_cells": 933,
+    "truth_cells": 284,
+    "truth_cells_raw": 49,
+    "calibrated_contamination": true
+  },
+  {
+    "day": "2024-10-31",
+    "method": "digital_twin",
+    "goes_nc": "/Volumes/NAUBER/digital-twin-queimadas-ceara/data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051800204_e20243051809523_c20243051809589.nc",
+    "contamination_used": 0.14593548387096772,
+    "channels": [
+      13
+    ],
+    "hours_utc": [
+      18
+    ],
+    "truth_dilate_iters": 1,
+    "twin_persistence": 0.5,
+    "twin_gaussian_sigma": 1.2,
+    "twin_fusion": "prob_or",
+    "twin_threshold_mode": "gmm2",
+    "twin_lof_neighbors": 24,
+    "twin_multiscale_median_sizes": [
+      5,
+      9,
+      15
+    ],
+    "tp": 55.0,
+    "fp": 702.0,
+    "fn": 229.0,
+    "tn": 4198.0,
+    "precision": 0.0726552179656539,
+    "recall": 0.1936619718309859,
+    "f1": 0.10566762728146013,
+    "iou": 0.055780933062880324,
+    "accuracy": 0.8204089506172839,
+    "valid_cells": 5184.0,
+    "n_focos_inpe": 76,
+    "pred_cells": 757,
+    "truth_cells": 284,
+    "truth_cells_raw": 49,
+    "calibrated_contamination": true
+  }
+]
