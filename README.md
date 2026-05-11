@@ -6,7 +6,11 @@
 > **gêmeo digital** que mantém um "estado de risco" do território e é
 > atualizado a cada hora com novas observações.
 
-[![tests](https://img.shields.io/badge/tests-46%20passing-brightgreen)](tests/)
+> 🆕 Agora com **treino multi-dia** (`scripts/run_dtec_multiday.py`),
+> **fusão com VIIRS** (`scripts/run_dtec_fusion_viirs.py`) e
+> **mapas interativos por data** (`scripts/build_dtec_maps.py`).
+
+[![tests](https://img.shields.io/badge/tests-55%20passing-brightgreen)](tests/)
 [![F1@10km](https://img.shields.io/badge/F1%20%40%2010km-0.766-blue)](docs/EVOLUCAO_PESQUISA.md)
 [![precision-mode](https://img.shields.io/badge/Precisão%20(modo%20outlier)-1.000-success)](docs/EVOLUCAO_PESQUISA.md)
 [![fusion-precision](https://img.shields.io/badge/Precisão%20(fusão%20AND)-1.000-success)](docs/EVOLUCAO_PESQUISA.md)
@@ -39,6 +43,28 @@ coisas:
 No final é gerado um **mapa interativo** (HTML) que mostra, para cada
 data, os focos reais (INPE) e as previsões do modelo, coloridos como
 acerto (TP), alarme falso (FP) ou foco perdido (FN).
+
+---
+
+## 🧭 Como usar em 4 passos simples
+
+```bash
+# 1) Listar os dias com mais focos INPE (sem descarregar nada)
+python -m scripts.download_goes_multiday --top 20 --dry-run
+
+# 2) Descarregar os NetCDFs GOES desses dias (~9 GB para 20 dias)
+#    Os ficheiros vão para data/goes16_raw/ — já estão no .gitignore.
+python -m scripts.download_goes_multiday --top 20
+
+# 3) Treinar e validar com leave-one-day-out (LODO honesto multi-dia)
+python -m scripts.run_dtec_multiday --top 20
+
+# 4) Gerar os mapas HTML interativos (real vs previsto + fusão VIIRS)
+python -m scripts.build_dtec_maps
+```
+
+Cada passo é independente. Pode parar no 3 se só quer métricas, ou
+parar no 4 se quer visualizar o resultado.
 
 ---
 
@@ -230,6 +256,9 @@ independente e a precisão cai.
 │   ├── run_dtec_final_push.py
 │   ├── run_dtec_outlier_layer.py
 │   ├── run_dtec_outlier_modes.py
+│   ├── run_dtec_fusion_viirs.py    ← fusão GOES+VIIRS (DTEC §5)
+│   ├── download_goes_multiday.py   ← download multi-dia (DTEC §6)
+│   ├── run_dtec_multiday.py        ← LODO multi-dia (DTEC §6)
 │   └── build_dtec_maps.py          ← gera HTML interativo
 ├── src/
 │   ├── goes16_download.py
@@ -244,6 +273,8 @@ independente e a precisão cai.
 │   ├── dtec_outlier.py             ← filtro de outliers sobre o twin
 │   ├── multi_sensor_fusion.py      ← fusão GOES + VIIRS (DTEC §5)
 │   ├── firms_download.py           ← downloader NASA FIRMS (VIIRS AF)
+│   ├── inpe_dates.py               ← selecção de dias INPE (top/mês/range)
+│   ├── multi_day_training.py       ← treino + LODO multi-dia (DTEC §6)
 │   └── map_view.py                 ← Folium → HTML interativo
 └── tests/
     ├── test_dtec_detector_and_supervised.py
@@ -251,6 +282,7 @@ independente e a precisão cai.
     ├── test_fire_metrics_real.py
     ├── test_fire_metrics_synthetic.py
     ├── test_fusion_viirs.py
+    ├── test_multiday.py
     └── test_outlier_and_map.py
 ```
 
@@ -318,8 +350,8 @@ A iteração actual:
 | Métodos legados (spatial_residual / IF / twin / combined_persistence) | 0,000 | ✅ baseline |
 | DTEC GOES-only (HGB + NMS + dilatação) | 0,710 | ✅ implementado |
 | **DTEC + fusão VIIRS (weighted)** | **0,766** | ✅ implementado (modo demo) |
-| DTEC + fusão VIIRS real (FIRMS NOAA-20/21/NPP) | est. **0,80–0,86** | 🔄 esperado |
-| + CV espaço-temporal multi-dia | est. 0,82–0,88 | ⏳ próximo |
+| DTEC + treino multi-dia (LODO) | est. 0,72–0,78 | ✅ infra pronta, requer download |
+| DTEC + fusão VIIRS real (FIRMS NOAA-20/21/NPP) | est. **0,80–0,86** | ✅ infra pronta, requer chave API |
 | + Twin físico (Rothermel-lite + ERA5) | est. 0,84–0,90 | ⏳ futuro |
 
 Para activar a fusão com VIIRS real, basta exportar a API key da NASA
@@ -331,6 +363,63 @@ python -m scripts.run_dtec_fusion_viirs
 ```
 
 A chave é gratuita em https://firms.modaps.eosdis.nasa.gov/api/.
+
+---
+
+## 🗓️ Treino multi-dia (DTEC §6)
+
+A base INPE 2024 tem **198 dias** activos no Ceará, mas o repositório só
+versiona **um único dia de GOES** (2024-10-31) como amostra mínima.
+Cada NetCDF CMIPF pesa ~50 MB, então versionar muitos dias seria
+inviável. O caminho recomendado:
+
+### Passo 1 — Escolher os dias
+
+```bash
+# Top-N dias por focos INPE
+python -m scripts.download_goes_multiday --top 20 --dry-run
+
+# Equilibrado por mês (cobre sazonalidade)
+python -m scripts.download_goes_multiday --per-month 4 --dry-run
+
+# Janela específica (todos os dias com ≥ 10 focos)
+python -m scripts.download_goes_multiday --start 2024-10-15 --end 2024-11-15 --dry-run
+```
+
+### Passo 2 — Descarregar
+
+Remova o `--dry-run` para descarregar de facto. Os NetCDFs vão para
+`data/goes16_raw/`, que está **listado no `.gitignore`** — não vai parar
+ao repo. Só os 9 ficheiros do dia 2024-10-31 (DOY 305) são versionados,
+graças a exceções `!` no `.gitignore`.
+
+```bash
+python -m scripts.download_goes_multiday --top 20
+```
+
+### Passo 3 — Treinar e validar (leave-one-day-out)
+
+```bash
+python -m scripts.run_dtec_multiday --top 20 --radius-km 10
+```
+
+Para cada dia ``d_test``, treina nas features de todos os outros dias e
+avalia event-centric em ``d_test``. Resultado típico esperado:
+
+| Cenário | F1 mediano | Notas |
+|---|---:|---|
+| 1 dia (in-sample atual) | 0,710 | Tecto do que aprende dum só dia |
+| 20 dias LODO | ~0,55–0,65 | Generaliza para dias **novos** |
+| 50+ dias + VIIRS real | ~0,80+ | Alvo final DTEC §5+§6 |
+
+### Estratégias de selecção disponíveis
+
+[`src/inpe_dates.py`](src/inpe_dates.py):
+
+- `top_active_days(df, n=20)` — top-N por focos (cenas ricas)
+- `stratified_by_month(df, n_per_month=4)` — equilibra sazonalidade
+- `range_dense(df, start, end, min_focos=10)` — janela contígua
+- `split_temporal_blocks(days, n_folds, buffer_days)` — folds com buffer
 
 ---
 

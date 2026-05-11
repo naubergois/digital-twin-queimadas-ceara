@@ -3,3 +3,33 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# ===========================================================================
+# Dados pesados (NetCDF GOES, cache FIRMS, etc.) — não versionar
+# Cada NetCDF CMIPF tem ~50 MB; um ano inteiro de Ceará são dezenas de GB.
+# O treino multi-dia é reprodutível a partir de scripts/download_goes_multiday.py
+# ===========================================================================
+
+# GOES-16 ABI NetCDF cru — baixar via scripts.download_goes_multiday
+data/goes16_raw/*.nc
+
+# Cache de descargas FIRMS (VIIRS NRT)
+data/firms_cache/
+
+# Artefactos gerados pela pipeline multi-dia (podem chegar a centenas de MB)
+data/goes16_eval/multi_day_*.json
+data/goes16_eval/multi_day_*.csv
+data/goes16_ceara_png/
+
+# Permite versionar APENAS o dia-âncora 2024-10-31 (DOY 305) como amostra
+# mínima para testes determinísticos. As linhas `!...` re-incluem os 9
+# ficheiros (3 horas × 3 canais) necessários para `pytest tests/`.
+!data/goes16_raw/OR_ABI-L2-CMIPF-M6C07_G16_s20243051600206_e20243051609526_c20243051609580.nc
+!data/goes16_raw/OR_ABI-L2-CMIPF-M6C07_G16_s20243051700204_e20243051709523_c20243051709590.nc
+!data/goes16_raw/OR_ABI-L2-CMIPF-M6C07_G16_s20243051800204_e20243051809523_c20243051809588.nc
+!data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051600206_e20243051609526_c20243051610001.nc
+!data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051700204_e20243051709523_c20243051709591.nc
+!data/goes16_raw/OR_ABI-L2-CMIPF-M6C13_G16_s20243051800204_e20243051809523_c20243051809589.nc
+!data/goes16_raw/OR_ABI-L2-CMIPF-M6C14_G16_s20243051600206_e20243051609514_c20243051609590.nc
+!data/goes16_raw/OR_ABI-L2-CMIPF-M6C14_G16_s20243051700204_e20243051709512_c20243051709591.nc
+!data/goes16_raw/OR_ABI-L2-CMIPF-M6C14_G16_s20243051800204_e20243051809512_c20243051809577.nc

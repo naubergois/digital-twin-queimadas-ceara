@@ -221,4 +221,63 @@ faz o download automático e usa os dados reais quando disponíveis.
 
 ---
 
+## 2026-05-11 (iteração D) — Treino multi-dia (DTEC §6)
+
+### Motivação
+
+O baseline DTEC actual usa **um único dia** de GOES local (2024-10-31).
+A base INPE 2024–2026 tem 111 054 focos em 198 dias activos só em 2024.
+Para subir o F1 LODO acima de 0,8 é preciso treinar em muitos dias —
+mas cada NetCDF GOES tem ~50 MB, então versionar todos é inviável.
+
+### Decisões de engenharia
+
+1. **`.gitignore`** ignora `data/goes16_raw/*.nc` e cache FIRMS, mas
+   re-inclui explicitamente os 9 ficheiros do dia 2024-10-31 (DOY 305)
+   para manter o teste mínimo determinístico.
+2. **Download multi-dia** orientado pela base INPE: `--top N`,
+   `--per-month K`, `--start/--end`, ou `--days lista`. O downloader
+   recusa silenciosamente dias sem focos suficientes (`--min-focos`).
+3. **LODO honesto**: para cada dia ``d_test``, treina nas features de
+   **todos os outros** dias. Métrica multi-dia mais difícil de inflar.
+
+### Módulos novos
+
+| Módulo | Função |
+|--------|--------|
+| `src/inpe_dates.py` | Selecção de datas a partir do CSV INPE (top / mês / range / blocos temporais com buffer) |
+| `src/multi_day_training.py` | Empilha features H×W de muitos dias num único HGB; LODO |
+| `scripts/download_goes_multiday.py` | Download em lote ABI C7/13/14 × 3 horas (do bucket NOAA) |
+| `scripts/run_dtec_multiday.py` | Benchmark LODO end-to-end |
+| `tests/test_multiday.py` | 9 testes para selecção e folds temporais |
+
+### Sanity
+
+Com **1 dia** local, o script degenera para in-sample e devolve o
+F1=0,710 já conhecido — confirma que o pipeline multi-dia está
+correctamente integrado:
+
+```
+   carregado 2024-10-31  focos=76 valid_cells=20735
+   ⚠️ Apenas 1 dia carregado — LODO degenera. Reporta apenas treino in-sample.
+   in-sample R=10.0km: F1=0.710 P=0.859 R=0.605
+```
+
+Para subir, o caminho concreto é:
+
+```bash
+# 20 dias mais activos de 2024-10..12 (Caatinga seca):
+python -m scripts.download_goes_multiday --top 20    # ~9 GB local
+python -m scripts.run_dtec_multiday --top 20         # LODO
+```
+
+### Status do código
+
+- **55/55 testes passam** (`python -m pytest tests/ -q`)
+- 9 novos módulos em `src/`, 12 scripts em `scripts/`, 6 conjuntos de testes em `tests/`
+- `.gitignore` cobre NetCDFs cru e cache FIRMS — repo permanece leve
+- README explica fluxo em 4 passos simples e documenta cada etapa
+
+---
+
 *(Adicione abaixo novas datas conforme o projeto evolui.)*
