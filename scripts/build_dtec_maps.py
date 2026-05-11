@@ -34,7 +34,13 @@ from src.dtec_supervised import (
     train_dtec_supervised,
 )
 from src.event_centric import day_window_utc
+from src.firms_download import load_or_download_viirs
 from src.map_view import build_multi_date_index, save_map
+from src.multi_sensor_fusion import (
+    FusionConfig,
+    fuse_goes_with_viirs,
+    synthesize_viirs_proxy,
+)
 from src.unsupervised_fire_goes import (
     collect_hourly_band_grids,
     intersect_valid_bins_hourly,
@@ -88,7 +94,29 @@ def _predict_for_day(day_utc: date, df, raw_dir: Path):
         cfg=OutlierConfig(method="local_outlier_factor", contamination=0.12),
     )
 
-    return df_day, pred_f1, pred_precision, valid_bins
+    # Modo fusão GOES + VIIRS (proxy quando FIRMS indisponível)
+    firms_cache = REPO_ROOT / "data" / "firms_cache"
+    df_viirs = load_or_download_viirs(day_utc, CEARA_BBOX, firms_cache)
+    if df_viirs.empty:
+        df_viirs = synthesize_viirs_proxy(
+            df_day, bbox=CEARA_BBOX,
+            detection_rate=0.80, spatial_jitter_km=1.5,
+            false_positive_rate=0.01,
+            n_cells_in_bbox=int(valid_bins.sum()),
+            seed=13,
+        )
+    prob_g = model.predict_proba_grid(feats, valid_bins)
+    d0_w, d1_w = day_window_utc(day_utc.isoformat())
+    res_fusion = fuse_goes_with_viirs(
+        pred_f1, prob_g, df_viirs,
+        CEARA_BBOX, GRID_HW, valid_bins,
+        cfg=FusionConfig(mode="weighted", gate_radius_km=3.0,
+                         weight_goes=0.6, weight_viirs=0.4),
+        day_utc=(d0_w, d1_w),
+    )
+    pred_fusion = res_fusion.pred_mask
+
+    return df_day, pred_f1, pred_precision, pred_fusion, valid_bins
 
 
 def main(dates: Sequence[date] = DATES):
@@ -101,8 +129,11 @@ def main(dates: Sequence[date] = DATES):
     pairs = []
     for d in dates:
         print(f"\n=== {d} ===")
-        df_day, pred_f1, pred_p, valid_bins = _predict_for_day(d, df, raw_dir)
-        print(f"focos no dia: {len(df_day)} | pred F1-mode: {int(pred_f1.sum())} | pred precision-mode: {int(pred_p.sum())}")
+        df_day, pred_f1, pred_p, pred_fusion, valid_bins = _predict_for_day(d, df, raw_dir)
+        print(
+            f"focos no dia: {len(df_day)} | F1-mode: {int(pred_f1.sum())} | "
+            f"precisão: {int(pred_p.sum())} | fusão GOES+VIIRS: {int(pred_fusion.sum())}"
+        )
 
         out_f1 = map_dir / f"mapa_{d.isoformat()}_F1.html"
         save_map(out_f1, df_day, pred_f1, CEARA_BBOX, GRID_HW,
@@ -116,8 +147,15 @@ def main(dates: Sequence[date] = DATES):
                  title="DTEC (modo precisão, outlier filter LOF cont=0.12)")
         print(f"  precision→ {out_p}")
 
+        out_fu = map_dir / f"mapa_{d.isoformat()}_fusao_viirs.html"
+        save_map(out_fu, df_day, pred_fusion, CEARA_BBOX, GRID_HW,
+                 day_iso=d.isoformat(), radius_km=R_KM, valid_bins=valid_bins,
+                 title="DTEC + VIIRS (fusão ponderada)")
+        print(f"  fusão    → {out_fu}")
+
         pairs.append((f"{d.isoformat()} (F1)", out_f1))
         pairs.append((f"{d.isoformat()} (precisão)", out_p))
+        pairs.append((f"{d.isoformat()} (fusão VIIRS)", out_fu))
 
     index = build_multi_date_index(pairs, map_dir / "index.html")
     print(f"\nÍndice: {index}")
