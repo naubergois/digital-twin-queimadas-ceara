@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_d0de8d5ed06ccf442e2aa119e8a8cd56 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+<div style="position: fixed; bottom: 20px; left: 20px; z-index:9999;
+            background: white; padding: 10px 12px; border:2px solid #444;
+            font: 12px/1.35 -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+  <b>DTEC (modo precisão, outlier filter LOF cont=0.12) — 2024-10-31</b><br/>
+  <span style="color:#238b45">●</span> TP (acerto)
+  &nbsp;<span style="color:#fd8d3c">●</span> FP (alarme falso)
+  &nbsp;<span style="color:#a50f15">●</span> FN (foco não detectado)<br/>
+  <hr style="margin:6px 0; border:0; border-top:1px solid #ccc"/>
+  Focos INPE: <b>76</b> &nbsp; Previstos: <b>6</b><br/>
+  TP (recall): <b>21</b> &nbsp; FN: <b>55</b><br/>
+  TP (precisão): <b>6</b> &nbsp; FP: <b>0</b><br/>
+  R=10.0 km &nbsp; P=<b>1.000</b> R=<b>0.276</b> F1=<b>0.433</b>
+</div>
+    
+            <div class="folium-map" id="map_d0de8d5ed06ccf442e2aa119e8a8cd56" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_d0de8d5ed06ccf442e2aa119e8a8cd56 = L.map(
+                "map_d0de8d5ed06ccf442e2aa119e8a8cd56",
+                {
+                    center: [-5.2, -39.25],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 7,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_d0de8d5ed06ccf442e2aa119e8a8cd56);
+
+            
+
+        
+    
+            var tile_layer_678305758926825a71c34b092f835066 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_678305758926825a71c34b092f835066.addTo(map_d0de8d5ed06ccf442e2aa119e8a8cd56);
+        
+    
+            var rectangle_bdd96ea1d6637b94a5c44370dc1efb0c = L.rectangle(
+                [[-7.9, -41.5], [-2.5, -37.0]],
+                {"bubblingMouseEvents": true, "color": "#444", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#444", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.6, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_d0de8d5ed06ccf442e2aa119e8a8cd56);
+        
+    
+        var popup_94be893f130c43f756925dd5ca371ab7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3df252b640bea073e8ccd93d08bbed60 = $(`<div id="html_3df252b640bea073e8ccd93d08bbed60" style="width: 100.0%; height: 100.0%;">BBOX Ceará (avaliação DTEC)</div>`)[0];
+                popup_94be893f130c43f756925dd5ca371ab7.setContent(html_3df252b640bea073e8ccd93d08bbed60);
+            
+        
+
+        rectangle_bdd96ea1d6637b94a5c44370dc1efb0c.bindPopup(popup_94be893f130c43f756925dd5ca371ab7)
+        ;
+
+        
+    
+    
+            var feature_group_82c73bf633898b71424c69eb04fcbb3f = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_dfbbe7bedd342d1e9ef5c6d73894ec10 = L.circleMarker(
+                [-4.60552, -40.03594],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_83a1696680418af29339f37b44cb9087 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_24888aff004c3a85d954b84a44908764 = $(`<div id="html_24888aff004c3a85d954b84a44908764" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.6055, lon=-40.0359<br/>TP</div>`)[0];
+                popup_83a1696680418af29339f37b44cb9087.setContent(html_24888aff004c3a85d954b84a44908764);
+            
+        
+
+        circle_marker_dfbbe7bedd342d1e9ef5c6d73894ec10.bindPopup(popup_83a1696680418af29339f37b44cb9087)
+        ;
+
+        
+    
+    
+            var circle_marker_d2ac82d614241b773fd95a108e8b6c78 = L.circleMarker(
+                [-4.60363, -40.02271],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_7ed26d967d50933a367cad7acd494df3 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_08733cdd2f6b7e53e7eeb4d69e2d4f88 = $(`<div id="html_08733cdd2f6b7e53e7eeb4d69e2d4f88" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.6036, lon=-40.0227<br/>TP</div>`)[0];
+                popup_7ed26d967d50933a367cad7acd494df3.setContent(html_08733cdd2f6b7e53e7eeb4d69e2d4f88);
+            
+        
+
+        circle_marker_d2ac82d614241b773fd95a108e8b6c78.bindPopup(popup_7ed26d967d50933a367cad7acd494df3)
+        ;
+
+        
+    
+    
+            var circle_marker_28f7d10ccce72b10fd59e8a6750382cc = L.circleMarker(
+                [-4.59359, -40.10769],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_cf8e8652bdac0cae609ec13bc07d1768 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_54c381df6dee58d88c08b60b5230c666 = $(`<div id="html_54c381df6dee58d88c08b60b5230c666" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.5936, lon=-40.1077<br/>TP</div>`)[0];
+                popup_cf8e8652bdac0cae609ec13bc07d1768.setContent(html_54c381df6dee58d88c08b60b5230c666);
+            
+        
+
+        circle_marker_28f7d10ccce72b10fd59e8a6750382cc.bindPopup(popup_cf8e8652bdac0cae609ec13bc07d1768)
+        ;
+
+        
+    
+    
+            var circle_marker_3b031788cc74acea470e53a6874dfd16 = L.circleMarker(
+                [-5.17612, -40.74071],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_9e3b25b4549d252ad71d3947824aa38b = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_82d0f3becd7149fe104bd3efc6d8a96f = $(`<div id="html_82d0f3becd7149fe104bd3efc6d8a96f" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.1761, lon=-40.7407<br/>TP</div>`)[0];
+                popup_9e3b25b4549d252ad71d3947824aa38b.setContent(html_82d0f3becd7149fe104bd3efc6d8a96f);
+            
+        
+
+        circle_marker_3b031788cc74acea470e53a6874dfd16.bindPopup(popup_9e3b25b4549d252ad71d3947824aa38b)
+        ;
+
+        
+    
+    
+            var circle_marker_add7f17c6be5def5b7afcbfded86766b = L.circleMarker(
+                [-5.17123, -40.78941],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_8f7fbf1aeff1fbeba392048240404002 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_16fb34c702f9a7ccf58aef97e7971d65 = $(`<div id="html_16fb34c702f9a7ccf58aef97e7971d65" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.1712, lon=-40.7894<br/>TP</div>`)[0];
+                popup_8f7fbf1aeff1fbeba392048240404002.setContent(html_16fb34c702f9a7ccf58aef97e7971d65);
+            
+        
+
+        circle_marker_add7f17c6be5def5b7afcbfded86766b.bindPopup(popup_8f7fbf1aeff1fbeba392048240404002)
+        ;
+
+        
+    
+    
+            var circle_marker_48cfd06d650b9e8dc49dd4bd1f110532 = L.circleMarker(
+                [-4.97916, -39.73768],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_4a475510b220c8deef2cf7118611b814 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_a0ceb9716f5023dcd16f8357763af71f = $(`<div id="html_a0ceb9716f5023dcd16f8357763af71f" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.9792, lon=-39.7377<br/>TP</div>`)[0];
+                popup_4a475510b220c8deef2cf7118611b814.setContent(html_a0ceb9716f5023dcd16f8357763af71f);
+            
+        
+
+        circle_marker_48cfd06d650b9e8dc49dd4bd1f110532.bindPopup(popup_4a475510b220c8deef2cf7118611b814)
+        ;
+
+        
+    
+    
+            var circle_marker_ee25fa88856b21da75580024c3812b84 = L.circleMarker(
+                [-4.91354, -39.84488],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_8cdc6469592b0f19cb00148c5b4eb56f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_3480d0722f56d2da339240e8912c0c0b = $(`<div id="html_3480d0722f56d2da339240e8912c0c0b" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.9135, lon=-39.8449<br/>TP</div>`)[0];
+                popup_8cdc6469592b0f19cb00148c5b4eb56f.setContent(html_3480d0722f56d2da339240e8912c0c0b);
+            
+        
+
+        circle_marker_ee25fa88856b21da75580024c3812b84.bindPopup(popup_8cdc6469592b0f19cb00148c5b4eb56f)
+        ;
+
+        
+    
+    
+            var circle_marker_cd7b1bf99695571d224803ebc189e7b8 = L.circleMarker(
+                [-4.85353, -39.76714],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_f4623ceeaca5a53803ba3bd019edb5a9 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_3995123075d0a9188703849633ae930d = $(`<div id="html_3995123075d0a9188703849633ae930d" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.8535, lon=-39.7671<br/>TP</div>`)[0];
+                popup_f4623ceeaca5a53803ba3bd019edb5a9.setContent(html_3995123075d0a9188703849633ae930d);
+            
+        
+
+        circle_marker_cd7b1bf99695571d224803ebc189e7b8.bindPopup(popup_f4623ceeaca5a53803ba3bd019edb5a9)
+        ;
+
+        
+    
+    
+            var circle_marker_2d31778e6d4cd33b74b73aff1c5da992 = L.circleMarker(
+                [-4.77559, -40.09457],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_6a6c50d9bc06f5cdb84db05349dadcf4 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_9a64cfb2afdb606dfa9a7c07115a3529 = $(`<div id="html_9a64cfb2afdb606dfa9a7c07115a3529" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7756, lon=-40.0946<br/>TP</div>`)[0];
+                popup_6a6c50d9bc06f5cdb84db05349dadcf4.setContent(html_9a64cfb2afdb606dfa9a7c07115a3529);
+            
+        
+
+        circle_marker_2d31778e6d4cd33b74b73aff1c5da992.bindPopup(popup_6a6c50d9bc06f5cdb84db05349dadcf4)
+        ;
+
+        
+    
+    
+            var circle_marker_22516cbdd16fae8b33181d2ebe7b8af2 = L.circleMarker(
+                [-4.77375, -40.0814],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_fcd5a90d151dc0a978efc5b12fae336b = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_e0dd527b9c36cac071c657649439bdc7 = $(`<div id="html_e0dd527b9c36cac071c657649439bdc7" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7737, lon=-40.0814<br/>TP</div>`)[0];
+                popup_fcd5a90d151dc0a978efc5b12fae336b.setContent(html_e0dd527b9c36cac071c657649439bdc7);
+            
+        
+
+        circle_marker_22516cbdd16fae8b33181d2ebe7b8af2.bindPopup(popup_fcd5a90d151dc0a978efc5b12fae336b)
+        ;
+
+        
+    
+    
+            var circle_marker_fd5e5ebbf00405167a7d08cefdedb5a1 = L.circleMarker(
+                [-4.76288, -40.08285],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_b390e8d9f2cd08aa6e3fd9d3f1816338 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_29923ba6db63b27e7735718c4442c904 = $(`<div id="html_29923ba6db63b27e7735718c4442c904" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7629, lon=-40.0829<br/>TP</div>`)[0];
+                popup_b390e8d9f2cd08aa6e3fd9d3f1816338.setContent(html_29923ba6db63b27e7735718c4442c904);
+            
+        
+
+        circle_marker_fd5e5ebbf00405167a7d08cefdedb5a1.bindPopup(popup_b390e8d9f2cd08aa6e3fd9d3f1816338)
+        ;
+
+        
+    
+    
+            var circle_marker_9d03ad8670243e55d3ed4b58592db387 = L.circleMarker(
+                [-4.74115, -40.08578],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_1e2fa39b06ea779cfe6a56bdfee32e5b = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_0eb1502225262720a5efc8517cf642d3 = $(`<div id="html_0eb1502225262720a5efc8517cf642d3" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7412, lon=-40.0858<br/>TP</div>`)[0];
+                popup_1e2fa39b06ea779cfe6a56bdfee32e5b.setContent(html_0eb1502225262720a5efc8517cf642d3);
+            
+        
+
+        circle_marker_9d03ad8670243e55d3ed4b58592db387.bindPopup(popup_1e2fa39b06ea779cfe6a56bdfee32e5b)
+        ;
+
+        
+    
+    
+            var circle_marker_6d3670a4bd0289d68b9679fafc3bd641 = L.circleMarker(
+                [-4.73928, -40.07224],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_c45baeb8daa70379297083b5db322aa3 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_94b30449e999b9f9710fad9afab59ae5 = $(`<div id="html_94b30449e999b9f9710fad9afab59ae5" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7393, lon=-40.0722<br/>TP</div>`)[0];
+                popup_c45baeb8daa70379297083b5db322aa3.setContent(html_94b30449e999b9f9710fad9afab59ae5);
+            
+        
+
+        circle_marker_6d3670a4bd0289d68b9679fafc3bd641.bindPopup(popup_c45baeb8daa70379297083b5db322aa3)
+        ;
+
+        
+    
+    
+            var circle_marker_d6729c86644b5ceb6c3407914085ce22 = L.circleMarker(
+                [-4.73629, -40.0793],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_b189735d3be86863f0257e1085923d0f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_161a0cf7f5f522f8930042046a6e49e4 = $(`<div id="html_161a0cf7f5f522f8930042046a6e49e4" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7363, lon=-40.0793<br/>TP</div>`)[0];
+                popup_b189735d3be86863f0257e1085923d0f.setContent(html_161a0cf7f5f522f8930042046a6e49e4);
+            
+        
+
+        circle_marker_d6729c86644b5ceb6c3407914085ce22.bindPopup(popup_b189735d3be86863f0257e1085923d0f)
+        ;
+
+        
+    
+    
+            var circle_marker_8bc14f5f545dd82400e781ca8346f87f = L.circleMarker(
+                [-4.73434, -40.06579],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_dc42e3ad7936eca04663206838e9a830 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2b3e7ee3c1bbf16f2c9e5b2d8e9e8d18 = $(`<div id="html_2b3e7ee3c1bbf16f2c9e5b2d8e9e8d18" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7343, lon=-40.0658<br/>TP</div>`)[0];
+                popup_dc42e3ad7936eca04663206838e9a830.setContent(html_2b3e7ee3c1bbf16f2c9e5b2d8e9e8d18);
+            
+        
+
+        circle_marker_8bc14f5f545dd82400e781ca8346f87f.bindPopup(popup_dc42e3ad7936eca04663206838e9a830)
+        ;
+
+        
+    
+    
+            var circle_marker_a8665210295fc24bbf7abfaf28e0166e = L.circleMarker(
+                [-4.73175, -40.01752],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_4149c14cf5cb778f98ee25e73f132d09 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d9017fdd18a4ff5414d6729de0a7ce1a = $(`<div id="html_d9017fdd18a4ff5414d6729de0a7ce1a" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7317, lon=-40.0175<br/>TP</div>`)[0];
+                popup_4149c14cf5cb778f98ee25e73f132d09.setContent(html_d9017fdd18a4ff5414d6729de0a7ce1a);
+            
+        
+
+        circle_marker_a8665210295fc24bbf7abfaf28e0166e.bindPopup(popup_4149c14cf5cb778f98ee25e73f132d09)
+        ;
+
+        
+    
+    
+            var circle_marker_ed8f330b488112649481f8a44c611604 = L.circleMarker(
+                [-4.73141, -40.12221],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_624e3cc8c72c286b5a9b29bb4c5e721d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f71280a710bf8d4bd610aaa6ddf9301c = $(`<div id="html_f71280a710bf8d4bd610aaa6ddf9301c" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7314, lon=-40.1222<br/>TP</div>`)[0];
+                popup_624e3cc8c72c286b5a9b29bb4c5e721d.setContent(html_f71280a710bf8d4bd610aaa6ddf9301c);
+            
+        
+
+        circle_marker_ed8f330b488112649481f8a44c611604.bindPopup(popup_624e3cc8c72c286b5a9b29bb4c5e721d)
+        ;
+
+        
+    
+    
+            var circle_marker_6f65de410d70d8e4492c8d4c67598ddd = L.circleMarker(
+                [-4.72995, -40.00447],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_943c309e3e862e1b073b7a3a0f1b8473 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_66eaa77594cc34c60d02fdbf4f924668 = $(`<div id="html_66eaa77594cc34c60d02fdbf4f924668" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7299, lon=-40.0045<br/>TP</div>`)[0];
+                popup_943c309e3e862e1b073b7a3a0f1b8473.setContent(html_66eaa77594cc34c60d02fdbf4f924668);
+            
+        
+
+        circle_marker_6f65de410d70d8e4492c8d4c67598ddd.bindPopup(popup_943c309e3e862e1b073b7a3a0f1b8473)
+        ;
+
+        
+    
+    
+            var circle_marker_223b8d3b4db9037a93dfbada6f109adf = L.circleMarker(
+                [-4.72054, -40.12381],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_5d875527385de203b4cc2bb6ffc43d79 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f5d4e0d551c61e700373df8122b8f9ce = $(`<div id="html_f5d4e0d551c61e700373df8122b8f9ce" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7205, lon=-40.1238<br/>TP</div>`)[0];
+                popup_5d875527385de203b4cc2bb6ffc43d79.setContent(html_f5d4e0d551c61e700373df8122b8f9ce);
+            
+        
+
+        circle_marker_223b8d3b4db9037a93dfbada6f109adf.bindPopup(popup_5d875527385de203b4cc2bb6ffc43d79)
+        ;
+
+        
+    
+    
+            var circle_marker_3fbfeb7c8bb506735e72a3c9ddef12bd = L.circleMarker(
+                [-4.71856, -40.10998],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_5721a009f60f5665e9ce8426ad52d844 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2bc7081aaf9da9f0a10ca8736fec0696 = $(`<div id="html_2bc7081aaf9da9f0a10ca8736fec0696" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7186, lon=-40.1100<br/>TP</div>`)[0];
+                popup_5721a009f60f5665e9ce8426ad52d844.setContent(html_2bc7081aaf9da9f0a10ca8736fec0696);
+            
+        
+
+        circle_marker_3fbfeb7c8bb506735e72a3c9ddef12bd.bindPopup(popup_5721a009f60f5665e9ce8426ad52d844)
+        ;
+
+        
+    
+    
+            var circle_marker_2e31c64c45ffa4c0cdbe14ca9a9d9e49 = L.circleMarker(
+                [-4.68988, -40.14259],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_82c73bf633898b71424c69eb04fcbb3f);
+        
+    
+        var popup_a5b175bc7d33b3a4a5578cdbef5deec0 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_c4de6749faa5e3e181575321ee75195c = $(`<div id="html_c4de6749faa5e3e181575321ee75195c" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.6899, lon=-40.1426<br/>TP</div>`)[0];
+                popup_a5b175bc7d33b3a4a5578cdbef5deec0.setContent(html_c4de6749faa5e3e181575321ee75195c);
+            
+        
+
+        circle_marker_2e31c64c45ffa4c0cdbe14ca9a9d9e49.bindPopup(popup_a5b175bc7d33b3a4a5578cdbef5deec0)
+        ;
+
+        
+    
+    
+            feature_group_82c73bf633898b71424c69eb04fcbb3f.addTo(map_d0de8d5ed06ccf442e2aa119e8a8cd56);
+        
+    
+            var feature_group_e1f5fcfbebff916ffbb018de60ee103a = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_adc56caaffb8928da8bdb90ad30451a6 = L.circleMarker(
+                [-5.09604, -39.83542],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_776e17c2d85e720749636e9ed3ef885c = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_8432c45ecb56d932add190bd1a365bff = $(`<div id="html_8432c45ecb56d932add190bd1a365bff" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.0960, lon=-39.8354<br/>FN</div>`)[0];
+                popup_776e17c2d85e720749636e9ed3ef885c.setContent(html_8432c45ecb56d932add190bd1a365bff);
+            
+        
+
+        circle_marker_adc56caaffb8928da8bdb90ad30451a6.bindPopup(popup_776e17c2d85e720749636e9ed3ef885c)
+        ;
+
+        
+    
+    
+            var circle_marker_d4b2b57c9e1f26c10ac3c263deaee207 = L.circleMarker(
+                [-4.62476, -39.67957],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_15bf442b94138d721a470c786ae03a7d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_323de5573a3f6417c68d1434c47f1db8 = $(`<div id="html_323de5573a3f6417c68d1434c47f1db8" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.6248, lon=-39.6796<br/>FN</div>`)[0];
+                popup_15bf442b94138d721a470c786ae03a7d.setContent(html_323de5573a3f6417c68d1434c47f1db8);
+            
+        
+
+        circle_marker_d4b2b57c9e1f26c10ac3c263deaee207.bindPopup(popup_15bf442b94138d721a470c786ae03a7d)
+        ;
+
+        
+    
+    
+            var circle_marker_b621549c9ff8c471ab88a43a4bba8669 = L.circleMarker(
+                [-4.61246, -39.66826],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_d0634bd78eda5cdbdbe29d603d16d20d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_1f664276b44e22b1387e7133397e5ce0 = $(`<div id="html_1f664276b44e22b1387e7133397e5ce0" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.6125, lon=-39.6683<br/>FN</div>`)[0];
+                popup_d0634bd78eda5cdbdbe29d603d16d20d.setContent(html_1f664276b44e22b1387e7133397e5ce0);
+            
+        
+
+        circle_marker_b621549c9ff8c471ab88a43a4bba8669.bindPopup(popup_d0634bd78eda5cdbdbe29d603d16d20d)
+        ;
+
+        
+    
+    
+            var circle_marker_1c00778c8699ce37f978ad3e36ed57ac = L.circleMarker(
+                [-4.58143, -39.71635],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_759367241a1abfa4944ac9b84d24ee65 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_a3fd1dec58121050d27eb685da022fb7 = $(`<div id="html_a3fd1dec58121050d27eb685da022fb7" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.5814, lon=-39.7163<br/>FN</div>`)[0];
+                popup_759367241a1abfa4944ac9b84d24ee65.setContent(html_a3fd1dec58121050d27eb685da022fb7);
+            
+        
+
+        circle_marker_1c00778c8699ce37f978ad3e36ed57ac.bindPopup(popup_759367241a1abfa4944ac9b84d24ee65)
+        ;
+
+        
+    
+    
+            var circle_marker_86d5a7a64914340bd113e75b3019101e = L.circleMarker(
+                [-4.57019, -40.20238],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_4c1e35482939e8a90b1e0d172cf0d4c3 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_3f36968eb7e306b5bf83cf0e9ee74b56 = $(`<div id="html_3f36968eb7e306b5bf83cf0e9ee74b56" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.5702, lon=-40.2024<br/>FN</div>`)[0];
+                popup_4c1e35482939e8a90b1e0d172cf0d4c3.setContent(html_3f36968eb7e306b5bf83cf0e9ee74b56);
+            
+        
+
+        circle_marker_86d5a7a64914340bd113e75b3019101e.bindPopup(popup_4c1e35482939e8a90b1e0d172cf0d4c3)
+        ;
+
+        
+    
+    
+            var circle_marker_ee295d47db43b587f8aaf842edc7a1b5 = L.circleMarker(
+                [-4.56819, -40.18861],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_b57bc8be9e7b28521d19a9143c5cd047 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_88211f440efe52c6b8df30045ae8f1a7 = $(`<div id="html_88211f440efe52c6b8df30045ae8f1a7" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.5682, lon=-40.1886<br/>FN</div>`)[0];
+                popup_b57bc8be9e7b28521d19a9143c5cd047.setContent(html_88211f440efe52c6b8df30045ae8f1a7);
+            
+        
+
+        circle_marker_ee295d47db43b587f8aaf842edc7a1b5.bindPopup(popup_b57bc8be9e7b28521d19a9143c5cd047)
+        ;
+
+        
+    
+    
+            var circle_marker_111f7870190679973705d1890b885005 = L.circleMarker(
+                [-4.52783, -40.70084],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_2213de175fd47583ad315ee173b2c1e7 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_0670d67e0546ed49fc33e31dd5dba798 = $(`<div id="html_0670d67e0546ed49fc33e31dd5dba798" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.5278, lon=-40.7008<br/>FN</div>`)[0];
+                popup_2213de175fd47583ad315ee173b2c1e7.setContent(html_0670d67e0546ed49fc33e31dd5dba798);
+            
+        
+
+        circle_marker_111f7870190679973705d1890b885005.bindPopup(popup_2213de175fd47583ad315ee173b2c1e7)
+        ;
+
+        
+    
+    
+            var circle_marker_c569f5c07521ece09f40e2b7b5dc9be1 = L.circleMarker(
+                [-4.51647, -40.70249],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_ad19a05b03e260d2db73adeb32d8ed6a = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_80dd6aa7c4456ce698800ee99ff97177 = $(`<div id="html_80dd6aa7c4456ce698800ee99ff97177" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.5165, lon=-40.7025<br/>FN</div>`)[0];
+                popup_ad19a05b03e260d2db73adeb32d8ed6a.setContent(html_80dd6aa7c4456ce698800ee99ff97177);
+            
+        
+
+        circle_marker_c569f5c07521ece09f40e2b7b5dc9be1.bindPopup(popup_ad19a05b03e260d2db73adeb32d8ed6a)
+        ;
+
+        
+    
+    
+            var circle_marker_05a91bc9c7f6ca60e97bc50ee172ec04 = L.circleMarker(
+                [-4.19964, -40.65928],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_67cd99148f54bc642d020d864701c5bc = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_98e6eef8091c4bcacdf2e055433eee12 = $(`<div id="html_98e6eef8091c4bcacdf2e055433eee12" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.1996, lon=-40.6593<br/>FN</div>`)[0];
+                popup_67cd99148f54bc642d020d864701c5bc.setContent(html_98e6eef8091c4bcacdf2e055433eee12);
+            
+        
+
+        circle_marker_05a91bc9c7f6ca60e97bc50ee172ec04.bindPopup(popup_67cd99148f54bc642d020d864701c5bc)
+        ;
+
+        
+    
+    
+            var circle_marker_de97967fff08158c62a106d5e3947ab8 = L.circleMarker(
+                [-4.02102, -40.11502],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_7b1bef2af47cff239366f9d7d9619f59 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_67a6c517ed13389c8497ed4bf63fd6f8 = $(`<div id="html_67a6c517ed13389c8497ed4bf63fd6f8" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.0210, lon=-40.1150<br/>FN</div>`)[0];
+                popup_7b1bef2af47cff239366f9d7d9619f59.setContent(html_67a6c517ed13389c8497ed4bf63fd6f8);
+            
+        
+
+        circle_marker_de97967fff08158c62a106d5e3947ab8.bindPopup(popup_7b1bef2af47cff239366f9d7d9619f59)
+        ;
+
+        
+    
+    
+            var circle_marker_6c695d81c019234ef08cb28255504596 = L.circleMarker(
+                [-3.98018, -39.59726],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_9e153bc3c6878b9ed5c4b1a792d318cb = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_e683a4f8912621a359f4f6dd1656df21 = $(`<div id="html_e683a4f8912621a359f4f6dd1656df21" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-3.9802, lon=-39.5973<br/>FN</div>`)[0];
+                popup_9e153bc3c6878b9ed5c4b1a792d318cb.setContent(html_e683a4f8912621a359f4f6dd1656df21);
+            
+        
+
+        circle_marker_6c695d81c019234ef08cb28255504596.bindPopup(popup_9e153bc3c6878b9ed5c4b1a792d318cb)
+        ;
+
+        
+    
+    
+            var circle_marker_584a6340aec1cb6478a9d9da5457da8d = L.circleMarker(
+                [-3.49978, -40.74722],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_6ca5a03fb97be81a89743bede6bd062a = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_fa4dee751113957ad8c340d997cc30c7 = $(`<div id="html_fa4dee751113957ad8c340d997cc30c7" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-3.4998, lon=-40.7472<br/>FN</div>`)[0];
+                popup_6ca5a03fb97be81a89743bede6bd062a.setContent(html_fa4dee751113957ad8c340d997cc30c7);
+            
+        
+
+        circle_marker_584a6340aec1cb6478a9d9da5457da8d.bindPopup(popup_6ca5a03fb97be81a89743bede6bd062a)
+        ;
+
+        
+    
+    
+            var circle_marker_22af19fd8f282fcc86bd3395836da945 = L.circleMarker(
+                [-3.29046, -40.56913],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_70bb45a3f9c5da46b999ddea1749ed35 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_5347176285aaa609da847b6a8d7b3275 = $(`<div id="html_5347176285aaa609da847b6a8d7b3275" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-3.2905, lon=-40.5691<br/>FN</div>`)[0];
+                popup_70bb45a3f9c5da46b999ddea1749ed35.setContent(html_5347176285aaa609da847b6a8d7b3275);
+            
+        
+
+        circle_marker_22af19fd8f282fcc86bd3395836da945.bindPopup(popup_70bb45a3f9c5da46b999ddea1749ed35)
+        ;
+
+        
+    
+    
+            var circle_marker_72352172af3391a525e4212cef5ace31 = L.circleMarker(
+                [-3.11198, -40.60709],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_34eb33e6e5a3948945f14df0fba9883f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_4723f7c44388813d1ef920b7318ddabf = $(`<div id="html_4723f7c44388813d1ef920b7318ddabf" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-3.1120, lon=-40.6071<br/>FN</div>`)[0];
+                popup_34eb33e6e5a3948945f14df0fba9883f.setContent(html_4723f7c44388813d1ef920b7318ddabf);
+            
+        
+
+        circle_marker_72352172af3391a525e4212cef5ace31.bindPopup(popup_34eb33e6e5a3948945f14df0fba9883f)
+        ;
+
+        
+    
+    
+            var circle_marker_f127ab476aa86de9002b426340df656a = L.circleMarker(
+                [-3.10998, -40.59312],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_693535eb1d8b1d9aa5b1a806e7ececbe = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_fc311dbd2f19fac0b2599c9dff5e134d = $(`<div id="html_fc311dbd2f19fac0b2599c9dff5e134d" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-3.1100, lon=-40.5931<br/>FN</div>`)[0];
+                popup_693535eb1d8b1d9aa5b1a806e7ececbe.setContent(html_fc311dbd2f19fac0b2599c9dff5e134d);
+            
+        
+
+        circle_marker_f127ab476aa86de9002b426340df656a.bindPopup(popup_693535eb1d8b1d9aa5b1a806e7ececbe)
+        ;
+
+        
+    
+    
+            var circle_marker_00484d954798db1d7f029ca8b9c8bb13 = L.circleMarker(
+                [-3.07487, -40.74846],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_9ff4b14ff233959cd57ef3024fe65922 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_7cbce202c92711bd87bec5e1716661c7 = $(`<div id="html_7cbce202c92711bd87bec5e1716661c7" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-3.0749, lon=-40.7485<br/>FN</div>`)[0];
+                popup_9ff4b14ff233959cd57ef3024fe65922.setContent(html_7cbce202c92711bd87bec5e1716661c7);
+            
+        
+
+        circle_marker_00484d954798db1d7f029ca8b9c8bb13.bindPopup(popup_9ff4b14ff233959cd57ef3024fe65922)
+        ;
+
+        
+    
+    
+            var circle_marker_458d8c10fcb3b2311fd589ec98d3bcf0 = L.circleMarker(
+                [-3.07472, -40.74317],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_734a5796b8db4c94920f0c93561b892f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_ccf0c2356899320c5d4b33be26e14fbc = $(`<div id="html_ccf0c2356899320c5d4b33be26e14fbc" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-3.0747, lon=-40.7432<br/>FN</div>`)[0];
+                popup_734a5796b8db4c94920f0c93561b892f.setContent(html_ccf0c2356899320c5d4b33be26e14fbc);
+            
+        
+
+        circle_marker_458d8c10fcb3b2311fd589ec98d3bcf0.bindPopup(popup_734a5796b8db4c94920f0c93561b892f)
+        ;
+
+        
+    
+    
+            var circle_marker_f5ea282c1ce284bbc864dc988be17090 = L.circleMarker(
+                [-4.62298, -39.6669],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_05f5dea6dc2453eeaa315098f695a25f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_67ab447c12a18a09853078d9cc596703 = $(`<div id="html_67ab447c12a18a09853078d9cc596703" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.6230, lon=-39.6669<br/>FN</div>`)[0];
+                popup_05f5dea6dc2453eeaa315098f695a25f.setContent(html_67ab447c12a18a09853078d9cc596703);
+            
+        
+
+        circle_marker_f5ea282c1ce284bbc864dc988be17090.bindPopup(popup_05f5dea6dc2453eeaa315098f695a25f)
+        ;
+
+        
+    
+    
+            var circle_marker_78fa166b85ebe23996f768fcde5b739e = L.circleMarker(
+                [-7.61448, -38.77181],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_8fcc154b980ac6cb4066d770dfae0203 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_965a9da56b6045a78704e2174774c66f = $(`<div id="html_965a9da56b6045a78704e2174774c66f" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-7.6145, lon=-38.7718<br/>FN</div>`)[0];
+                popup_8fcc154b980ac6cb4066d770dfae0203.setContent(html_965a9da56b6045a78704e2174774c66f);
+            
+        
+
+        circle_marker_78fa166b85ebe23996f768fcde5b739e.bindPopup(popup_8fcc154b980ac6cb4066d770dfae0203)
+        ;
+
+        
+    
+    
+            var circle_marker_6a568a087cd589607d0759a2ba744fc6 = L.circleMarker(
+                [-7.60571, -38.86201],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_f3d3999a8c057d2433131c78586d9864 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_561f62d5b7fea457c606fc844318b9df = $(`<div id="html_561f62d5b7fea457c606fc844318b9df" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-7.6057, lon=-38.8620<br/>FN</div>`)[0];
+                popup_f3d3999a8c057d2433131c78586d9864.setContent(html_561f62d5b7fea457c606fc844318b9df);
+            
+        
+
+        circle_marker_6a568a087cd589607d0759a2ba744fc6.bindPopup(popup_f3d3999a8c057d2433131c78586d9864)
+        ;
+
+        
+    
+    
+            var circle_marker_0de84d421c41d6d9984db7f29081daa4 = L.circleMarker(
+                [-7.39289, -39.59645],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_9bcde3ef0471e4d8cbe129c299304fcc = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_cc3711dc39db87637d61fdedc40fdfae = $(`<div id="html_cc3711dc39db87637d61fdedc40fdfae" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-7.3929, lon=-39.5964<br/>FN</div>`)[0];
+                popup_9bcde3ef0471e4d8cbe129c299304fcc.setContent(html_cc3711dc39db87637d61fdedc40fdfae);
+            
+        
+
+        circle_marker_0de84d421c41d6d9984db7f29081daa4.bindPopup(popup_9bcde3ef0471e4d8cbe129c299304fcc)
+        ;
+
+        
+    
+    
+            var circle_marker_9994df933ef1714d9eaf3bb50a750803 = L.circleMarker(
+                [-7.38197, -39.59793],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_8bdbb3f4911db9f2104bafa6458175dc = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_49649b00b5c29b59be5053d1aecaa3cb = $(`<div id="html_49649b00b5c29b59be5053d1aecaa3cb" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-7.3820, lon=-39.5979<br/>FN</div>`)[0];
+                popup_8bdbb3f4911db9f2104bafa6458175dc.setContent(html_49649b00b5c29b59be5053d1aecaa3cb);
+            
+        
+
+        circle_marker_9994df933ef1714d9eaf3bb50a750803.bindPopup(popup_8bdbb3f4911db9f2104bafa6458175dc)
+        ;
+
+        
+    
+    
+            var circle_marker_e2397b993559240f3855c66915d1fb33 = L.circleMarker(
+                [-7.2642, -40.1625],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_da31a9b25c09a64cb437b6f786c237cf = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_1f0d6d8088952ec6c24153027a20c285 = $(`<div id="html_1f0d6d8088952ec6c24153027a20c285" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-7.2642, lon=-40.1625<br/>FN</div>`)[0];
+                popup_da31a9b25c09a64cb437b6f786c237cf.setContent(html_1f0d6d8088952ec6c24153027a20c285);
+            
+        
+
+        circle_marker_e2397b993559240f3855c66915d1fb33.bindPopup(popup_da31a9b25c09a64cb437b6f786c237cf)
+        ;
+
+        
+    
+    
+            var circle_marker_f06e36f4dbc836ae79cc1a474c9a6882 = L.circleMarker(
+                [-6.95298, -39.00261],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_bc5cc0a9acb22183306f6cdcba51b241 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_8f29ebd503b0e899612f0e0391060188 = $(`<div id="html_8f29ebd503b0e899612f0e0391060188" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-6.9530, lon=-39.0026<br/>FN</div>`)[0];
+                popup_bc5cc0a9acb22183306f6cdcba51b241.setContent(html_8f29ebd503b0e899612f0e0391060188);
+            
+        
+
+        circle_marker_f06e36f4dbc836ae79cc1a474c9a6882.bindPopup(popup_bc5cc0a9acb22183306f6cdcba51b241)
+        ;
+
+        
+    
+    
+            var circle_marker_bd31a84e6b85805029caa2b0205b6e90 = L.circleMarker(
+                [-6.94806, -39.2743],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_037a17a4036078a0854f4396674542ce = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_84dbceaf5b1f3f6277dfded785b8e08a = $(`<div id="html_84dbceaf5b1f3f6277dfded785b8e08a" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-6.9481, lon=-39.2743<br/>FN</div>`)[0];
+                popup_037a17a4036078a0854f4396674542ce.setContent(html_84dbceaf5b1f3f6277dfded785b8e08a);
+            
+        
+
+        circle_marker_bd31a84e6b85805029caa2b0205b6e90.bindPopup(popup_037a17a4036078a0854f4396674542ce)
+        ;
+
+        
+    
+    
+            var circle_marker_ebdbde70dc765d08af4f5f8ef4457988 = L.circleMarker(
+                [-5.21962, -39.67814],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_c73390daed986ea7c8b8d6cf27d9f73a = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_23f860ead109deae311775554cf26253 = $(`<div id="html_23f860ead109deae311775554cf26253" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.2196, lon=-39.6781<br/>FN</div>`)[0];
+                popup_c73390daed986ea7c8b8d6cf27d9f73a.setContent(html_23f860ead109deae311775554cf26253);
+            
+        
+
+        circle_marker_ebdbde70dc765d08af4f5f8ef4457988.bindPopup(popup_c73390daed986ea7c8b8d6cf27d9f73a)
+        ;
+
+        
+    
+    
+            var circle_marker_cc9a5f3d35dfe9bafdf93f3d318c70db = L.circleMarker(
+                [-6.59052, -39.19255],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_79c295d1b20bcb55da98109116bf7c13 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_a9eaa0ae11249991d6141e875e167ee9 = $(`<div id="html_a9eaa0ae11249991d6141e875e167ee9" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-6.5905, lon=-39.1925<br/>FN</div>`)[0];
+                popup_79c295d1b20bcb55da98109116bf7c13.setContent(html_a9eaa0ae11249991d6141e875e167ee9);
+            
+        
+
+        circle_marker_cc9a5f3d35dfe9bafdf93f3d318c70db.bindPopup(popup_79c295d1b20bcb55da98109116bf7c13)
+        ;
+
+        
+    
+    
+            var circle_marker_763d6197b5a58e435704aa452c18d348 = L.circleMarker(
+                [-6.14508, -40.44336],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_6a1e3e743e8f0ca452ad6dd90b8dc4c4 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_cb087f90256461db2e876b70b022ba7c = $(`<div id="html_cb087f90256461db2e876b70b022ba7c" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-6.1451, lon=-40.4434<br/>FN</div>`)[0];
+                popup_6a1e3e743e8f0ca452ad6dd90b8dc4c4.setContent(html_cb087f90256461db2e876b70b022ba7c);
+            
+        
+
+        circle_marker_763d6197b5a58e435704aa452c18d348.bindPopup(popup_6a1e3e743e8f0ca452ad6dd90b8dc4c4)
+        ;
+
+        
+    
+    
+            var circle_marker_58120eb44f08e0f7550b75e7fb656ab3 = L.circleMarker(
+                [-5.24441, -39.81599],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_aafe7a21e403e2e6124e65b730079751 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_9477299fc3bf369783857b2c3581cebd = $(`<div id="html_9477299fc3bf369783857b2c3581cebd" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.2444, lon=-39.8160<br/>FN</div>`)[0];
+                popup_aafe7a21e403e2e6124e65b730079751.setContent(html_9477299fc3bf369783857b2c3581cebd);
+            
+        
+
+        circle_marker_58120eb44f08e0f7550b75e7fb656ab3.bindPopup(popup_aafe7a21e403e2e6124e65b730079751)
+        ;
+
+        
+    
+    
+            var circle_marker_4193b585ba20c9352b39636563a34fd0 = L.circleMarker(
+                [-5.24042, -39.82315],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_793d2cf12b12965e8f8aa490b06251c0 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_33ed5e7c0b517529dde26659935c636f = $(`<div id="html_33ed5e7c0b517529dde26659935c636f" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.2404, lon=-39.8231<br/>FN</div>`)[0];
+                popup_793d2cf12b12965e8f8aa490b06251c0.setContent(html_33ed5e7c0b517529dde26659935c636f);
+            
+        
+
+        circle_marker_4193b585ba20c9352b39636563a34fd0.bindPopup(popup_793d2cf12b12965e8f8aa490b06251c0)
+        ;
+
+        
+    
+    
+            var circle_marker_d76b69b7d135ad1bf783161e80d9ec9f = L.circleMarker(
+                [-5.23852, -39.80988],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_531bc7b64715e6acc97735156df8fb14 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_cf050177d3ac583acfb9b4c3801c2b23 = $(`<div id="html_cf050177d3ac583acfb9b4c3801c2b23" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.2385, lon=-39.8099<br/>FN</div>`)[0];
+                popup_531bc7b64715e6acc97735156df8fb14.setContent(html_cf050177d3ac583acfb9b4c3801c2b23);
+            
+        
+
+        circle_marker_d76b69b7d135ad1bf783161e80d9ec9f.bindPopup(popup_531bc7b64715e6acc97735156df8fb14)
+        ;
+
+        
+    
+    
+            var circle_marker_ace8bd476418a048e956d7154e7085b7 = L.circleMarker(
+                [-5.16185, -39.99042],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_6e6ed52eea5bad3d0458f666bb915fbd = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_40b814686a496a18e5699e88e951926a = $(`<div id="html_40b814686a496a18e5699e88e951926a" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.1619, lon=-39.9904<br/>FN</div>`)[0];
+                popup_6e6ed52eea5bad3d0458f666bb915fbd.setContent(html_40b814686a496a18e5699e88e951926a);
+            
+        
+
+        circle_marker_ace8bd476418a048e956d7154e7085b7.bindPopup(popup_6e6ed52eea5bad3d0458f666bb915fbd)
+        ;
+
+        
+    
+    
+            var circle_marker_bc89cf5e729627487ac4758f56c785cc = L.circleMarker(
+                [-5.09419, -39.82212],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_fb56bb82d91390d978b738e44029685c = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_584795df39d1aa2f1b435f5df96c32fd = $(`<div id="html_584795df39d1aa2f1b435f5df96c32fd" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.0942, lon=-39.8221<br/>FN</div>`)[0];
+                popup_fb56bb82d91390d978b738e44029685c.setContent(html_584795df39d1aa2f1b435f5df96c32fd);
+            
+        
+
+        circle_marker_bc89cf5e729627487ac4758f56c785cc.bindPopup(popup_fb56bb82d91390d978b738e44029685c)
+        ;
+
+        
+    
+    
+            var circle_marker_efb33610dd14407c6cf6e08b802794ac = L.circleMarker(
+                [-5.09298, -39.97215],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_28bf92b055e74169e2a7d2f2f8b75002 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2e97ccde3816856c1e0e58d767b16359 = $(`<div id="html_2e97ccde3816856c1e0e58d767b16359" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.0930, lon=-39.9721<br/>FN</div>`)[0];
+                popup_28bf92b055e74169e2a7d2f2f8b75002.setContent(html_2e97ccde3816856c1e0e58d767b16359);
+            
+        
+
+        circle_marker_efb33610dd14407c6cf6e08b802794ac.bindPopup(popup_28bf92b055e74169e2a7d2f2f8b75002)
+        ;
+
+        
+    
+    
+            var circle_marker_f7fc4102ec08f98abb82dcc7c2fa3dd7 = L.circleMarker(
+                [-5.08788, -39.9655],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_7f92f3d2a2cc59b1f26bba7dc68e80e6 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_7b2251d20635e826c53d8f5a5c4d4cf5 = $(`<div id="html_7b2251d20635e826c53d8f5a5c4d4cf5" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.0879, lon=-39.9655<br/>FN</div>`)[0];
+                popup_7f92f3d2a2cc59b1f26bba7dc68e80e6.setContent(html_7b2251d20635e826c53d8f5a5c4d4cf5);
+            
+        
+
+        circle_marker_f7fc4102ec08f98abb82dcc7c2fa3dd7.bindPopup(popup_7f92f3d2a2cc59b1f26bba7dc68e80e6)
+        ;
+
+        
+    
+    
+            var circle_marker_7adfa2c5c2f71639a5541bd389eae224 = L.circleMarker(
+                [-5.03519, -39.90464],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_756ffc0126fa3409f3d6665ded210d22 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_bae90d88b4f1c0968482327d19881c67 = $(`<div id="html_bae90d88b4f1c0968482327d19881c67" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.0352, lon=-39.9046<br/>FN</div>`)[0];
+                popup_756ffc0126fa3409f3d6665ded210d22.setContent(html_bae90d88b4f1c0968482327d19881c67);
+            
+        
+
+        circle_marker_7adfa2c5c2f71639a5541bd389eae224.bindPopup(popup_756ffc0126fa3409f3d6665ded210d22)
+        ;
+
+        
+    
+    
+            var circle_marker_91513eef0817c19cb3a2a2de750e57cb = L.circleMarker(
+                [-5.03327, -39.89106],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_0852fc2859ab62cf0fb462713ce052de = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_4792561e0c1fda45a9003421dbecd911 = $(`<div id="html_4792561e0c1fda45a9003421dbecd911" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.0333, lon=-39.8911<br/>FN</div>`)[0];
+                popup_0852fc2859ab62cf0fb462713ce052de.setContent(html_4792561e0c1fda45a9003421dbecd911);
+            
+        
+
+        circle_marker_91513eef0817c19cb3a2a2de750e57cb.bindPopup(popup_0852fc2859ab62cf0fb462713ce052de)
+        ;
+
+        
+    
+    
+            var circle_marker_2fca839e0aa55b209c573f19a3d9f24e = L.circleMarker(
+                [-5.02069, -39.87949],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_64e828761c7ba4c5b5f5ba323abcc14e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_a550cfc73d36bc64f6948263cc6a58b6 = $(`<div id="html_a550cfc73d36bc64f6948263cc6a58b6" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.0207, lon=-39.8795<br/>FN</div>`)[0];
+                popup_64e828761c7ba4c5b5f5ba323abcc14e.setContent(html_a550cfc73d36bc64f6948263cc6a58b6);
+            
+        
+
+        circle_marker_2fca839e0aa55b209c573f19a3d9f24e.bindPopup(popup_64e828761c7ba4c5b5f5ba323abcc14e)
+        ;
+
+        
+    
+    
+            var circle_marker_d1fa054c2aae6f0373dd534bb6e95f06 = L.circleMarker(
+                [-5.01886, -39.86641],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_a1d83c4047e0ac75b57a7bbf31aecad7 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_bdfedbe8ad9102b6b60dbf8ab2d22dc9 = $(`<div id="html_bdfedbe8ad9102b6b60dbf8ab2d22dc9" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-5.0189, lon=-39.8664<br/>FN</div>`)[0];
+                popup_a1d83c4047e0ac75b57a7bbf31aecad7.setContent(html_bdfedbe8ad9102b6b60dbf8ab2d22dc9);
+            
+        
+
+        circle_marker_d1fa054c2aae6f0373dd534bb6e95f06.bindPopup(popup_a1d83c4047e0ac75b57a7bbf31aecad7)
+        ;
+
+        
+    
+    
+            var circle_marker_39e53545245f706d0fffbd137b9db3b6 = L.circleMarker(
+                [-4.88151, -40.11869],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_4604f3dba15c0998eab2367088d7635b = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2ed397e08f49241cda8e37a8b010d49e = $(`<div id="html_2ed397e08f49241cda8e37a8b010d49e" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.8815, lon=-40.1187<br/>FN</div>`)[0];
+                popup_4604f3dba15c0998eab2367088d7635b.setContent(html_2ed397e08f49241cda8e37a8b010d49e);
+            
+        
+
+        circle_marker_39e53545245f706d0fffbd137b9db3b6.bindPopup(popup_4604f3dba15c0998eab2367088d7635b)
+        ;
+
+        
+    
+    
+            var circle_marker_39429439cf1aeafbcdc5a8d0104e47a2 = L.circleMarker(
+                [-4.88009, -40.18799],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_0d15ce98f5a78fcc818cba83372878b0 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_b279bb9c96ddcf720a6ff3fac4316be8 = $(`<div id="html_b279bb9c96ddcf720a6ff3fac4316be8" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.8801, lon=-40.1880<br/>FN</div>`)[0];
+                popup_0d15ce98f5a78fcc818cba83372878b0.setContent(html_b279bb9c96ddcf720a6ff3fac4316be8);
+            
+        
+
+        circle_marker_39429439cf1aeafbcdc5a8d0104e47a2.bindPopup(popup_0d15ce98f5a78fcc818cba83372878b0)
+        ;
+
+        
+    
+    
+            var circle_marker_288e5a59e93dff532d27dfbe0e3164bc = L.circleMarker(
+                [-4.86557, -40.49169],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_0c29e784bf78f8cf269dd7eff4e0e623 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2e83300b074ddf55872d1a3976f9262e = $(`<div id="html_2e83300b074ddf55872d1a3976f9262e" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.8656, lon=-40.4917<br/>FN</div>`)[0];
+                popup_0c29e784bf78f8cf269dd7eff4e0e623.setContent(html_2e83300b074ddf55872d1a3976f9262e);
+            
+        
+
+        circle_marker_288e5a59e93dff532d27dfbe0e3164bc.bindPopup(popup_0c29e784bf78f8cf269dd7eff4e0e623)
+        ;
+
+        
+    
+    
+            var circle_marker_ca4e541b0c4c7fb5c0d6c4f54fcee1c2 = L.circleMarker(
+                [-4.79467, -39.99535],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_c9658221487f243b2cecb2c9e9b5b9f0 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_49775dcaf6529954bf62febf8277dba3 = $(`<div id="html_49775dcaf6529954bf62febf8277dba3" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7947, lon=-39.9954<br/>FN</div>`)[0];
+                popup_c9658221487f243b2cecb2c9e9b5b9f0.setContent(html_49775dcaf6529954bf62febf8277dba3);
+            
+        
+
+        circle_marker_ca4e541b0c4c7fb5c0d6c4f54fcee1c2.bindPopup(popup_c9658221487f243b2cecb2c9e9b5b9f0)
+        ;
+
+        
+    
+    
+            var circle_marker_99ebcbe78f8026a639ae470c43156135 = L.circleMarker(
+                [-4.76676, -39.68675],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_0b675cb995e36717dc447f5dc730089f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_199f883a3c23cb1f00eb4f2eeda69d71 = $(`<div id="html_199f883a3c23cb1f00eb4f2eeda69d71" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7668, lon=-39.6868<br/>FN</div>`)[0];
+                popup_0b675cb995e36717dc447f5dc730089f.setContent(html_199f883a3c23cb1f00eb4f2eeda69d71);
+            
+        
+
+        circle_marker_99ebcbe78f8026a639ae470c43156135.bindPopup(popup_0b675cb995e36717dc447f5dc730089f)
+        ;
+
+        
+    
+    
+            var circle_marker_75a69e71f66acd208bafa90e5c168c8c = L.circleMarker(
+                [-4.76214, -39.6929],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_b156dbed02791b6ddd29125c5850d931 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_4f6d16bd567f007f3bd49cff208f43d2 = $(`<div id="html_4f6d16bd567f007f3bd49cff208f43d2" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7621, lon=-39.6929<br/>FN</div>`)[0];
+                popup_b156dbed02791b6ddd29125c5850d931.setContent(html_4f6d16bd567f007f3bd49cff208f43d2);
+            
+        
+
+        circle_marker_75a69e71f66acd208bafa90e5c168c8c.bindPopup(popup_b156dbed02791b6ddd29125c5850d931)
+        ;
+
+        
+    
+    
+            var circle_marker_301b467a275fa768c4fd454b574ea6c7 = L.circleMarker(
+                [-4.76029, -39.68011],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_f2df7fb845caff0fe946b4c6e7ad4e9d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_bd1447699cc015706c18033c69bd63fe = $(`<div id="html_bd1447699cc015706c18033c69bd63fe" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7603, lon=-39.6801<br/>FN</div>`)[0];
+                popup_f2df7fb845caff0fe946b4c6e7ad4e9d.setContent(html_bd1447699cc015706c18033c69bd63fe);
+            
+        
+
+        circle_marker_301b467a275fa768c4fd454b574ea6c7.bindPopup(popup_f2df7fb845caff0fe946b4c6e7ad4e9d)
+        ;
+
+        
+    
+    
+            var circle_marker_6d82d1b3de647dc0a8afa5ac54427020 = L.circleMarker(
+                [-4.74594, -39.30798],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_4c38db7d653b07c9f51d4960d616b165 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_371f7e4f71356ae5d8c2064b2f7e0f85 = $(`<div id="html_371f7e4f71356ae5d8c2064b2f7e0f85" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7459, lon=-39.3080<br/>FN</div>`)[0];
+                popup_4c38db7d653b07c9f51d4960d616b165.setContent(html_371f7e4f71356ae5d8c2064b2f7e0f85);
+            
+        
+
+        circle_marker_6d82d1b3de647dc0a8afa5ac54427020.bindPopup(popup_4c38db7d653b07c9f51d4960d616b165)
+        ;
+
+        
+    
+    
+            var circle_marker_6d2247e95b19dbaa01705a0c8048d7ad = L.circleMarker(
+                [-4.7421, -39.93391],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_44b2d6aeca0ec34d42559a11e307a318 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_b46efcb19a520e75238a4a2fe981e9bb = $(`<div id="html_b46efcb19a520e75238a4a2fe981e9bb" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7421, lon=-39.9339<br/>FN</div>`)[0];
+                popup_44b2d6aeca0ec34d42559a11e307a318.setContent(html_b46efcb19a520e75238a4a2fe981e9bb);
+            
+        
+
+        circle_marker_6d2247e95b19dbaa01705a0c8048d7ad.bindPopup(popup_44b2d6aeca0ec34d42559a11e307a318)
+        ;
+
+        
+    
+    
+            var circle_marker_5d85637b9b43c446e1c87bf117037658 = L.circleMarker(
+                [-4.74023, -39.9205],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_5effd933fa056f6d1e1b37c87c01bf03 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_bb992f5e096dc114e3a2aa1d34712833 = $(`<div id="html_bb992f5e096dc114e3a2aa1d34712833" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7402, lon=-39.9205<br/>FN</div>`)[0];
+                popup_5effd933fa056f6d1e1b37c87c01bf03.setContent(html_bb992f5e096dc114e3a2aa1d34712833);
+            
+        
+
+        circle_marker_5d85637b9b43c446e1c87bf117037658.bindPopup(popup_5effd933fa056f6d1e1b37c87c01bf03)
+        ;
+
+        
+    
+    
+            var circle_marker_a36acb0930973291eb32705b20f7ef1b = L.circleMarker(
+                [-4.73136, -39.93534],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_63ae4b01379993ceac7ca88fc7252dcf = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_62203b198e051e63a56a32ec4c27dad9 = $(`<div id="html_62203b198e051e63a56a32ec4c27dad9" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7314, lon=-39.9353<br/>FN</div>`)[0];
+                popup_63ae4b01379993ceac7ca88fc7252dcf.setContent(html_62203b198e051e63a56a32ec4c27dad9);
+            
+        
+
+        circle_marker_a36acb0930973291eb32705b20f7ef1b.bindPopup(popup_63ae4b01379993ceac7ca88fc7252dcf)
+        ;
+
+        
+    
+    
+            var circle_marker_ebefd60c1ab406505cf2e9faeff625e6 = L.circleMarker(
+                [-4.7295, -39.92194],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_4968c871c983f3b8b902f765c741d352 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d809dacb3258aab9fd7a3fc5dfd76955 = $(`<div id="html_d809dacb3258aab9fd7a3fc5dfd76955" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7295, lon=-39.9219<br/>FN</div>`)[0];
+                popup_4968c871c983f3b8b902f765c741d352.setContent(html_d809dacb3258aab9fd7a3fc5dfd76955);
+            
+        
+
+        circle_marker_ebefd60c1ab406505cf2e9faeff625e6.bindPopup(popup_4968c871c983f3b8b902f765c741d352)
+        ;
+
+        
+    
+    
+            var circle_marker_ee135ff96bf4e164e2b16c7a54e53cb5 = L.circleMarker(
+                [-4.72632, -39.97816],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_1db179b0d795c21f20829c86c64c4f5f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_64b4c1e203d4a635ab14b0c0af2706f1 = $(`<div id="html_64b4c1e203d4a635ab14b0c0af2706f1" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7263, lon=-39.9782<br/>FN</div>`)[0];
+                popup_1db179b0d795c21f20829c86c64c4f5f.setContent(html_64b4c1e203d4a635ab14b0c0af2706f1);
+            
+        
+
+        circle_marker_ee135ff96bf4e164e2b16c7a54e53cb5.bindPopup(popup_1db179b0d795c21f20829c86c64c4f5f)
+        ;
+
+        
+    
+    
+            var circle_marker_87dcf2053e14ea3ea1e93c35d85d060a = L.circleMarker(
+                [-4.72074, -39.97189],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_7d3c7b3eb030e9ef0834f051cab35958 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_37d3b6e8c958b383dce2b3516b5ae4bf = $(`<div id="html_37d3b6e8c958b383dce2b3516b5ae4bf" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.7207, lon=-39.9719<br/>FN</div>`)[0];
+                popup_7d3c7b3eb030e9ef0834f051cab35958.setContent(html_37d3b6e8c958b383dce2b3516b5ae4bf);
+            
+        
+
+        circle_marker_87dcf2053e14ea3ea1e93c35d85d060a.bindPopup(popup_7d3c7b3eb030e9ef0834f051cab35958)
+        ;
+
+        
+    
+    
+            var circle_marker_55b23bbe4ce64f35c27a62ba4dbd945c = L.circleMarker(
+                [-4.6827, -39.14218],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_7517717e6c32b5e2e049cd73923a3ad1 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_636cace987419b4955b30440557e1e54 = $(`<div id="html_636cace987419b4955b30440557e1e54" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.6827, lon=-39.1422<br/>FN</div>`)[0];
+                popup_7517717e6c32b5e2e049cd73923a3ad1.setContent(html_636cace987419b4955b30440557e1e54);
+            
+        
+
+        circle_marker_55b23bbe4ce64f35c27a62ba4dbd945c.bindPopup(popup_7517717e6c32b5e2e049cd73923a3ad1)
+        ;
+
+        
+    
+    
+            var circle_marker_3b06ae34a1bff4941fa46ef22453db82 = L.circleMarker(
+                [-4.68101, -39.13049],
+                {"bubblingMouseEvents": true, "color": "#a50f15", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a50f15", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e1f5fcfbebff916ffbb018de60ee103a);
+        
+    
+        var popup_3ffe43f8039c83943dfb879b5e3ea406 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_006c2aa2a4e29bca0f2a5ae316ffa479 = $(`<div id="html_006c2aa2a4e29bca0f2a5ae316ffa479" style="width: 100.0%; height: 100.0%;"><b>Foco INPE</b><br/>2024-10-31 16:48 UTC<br/>lat=-4.6810, lon=-39.1305<br/>FN</div>`)[0];
+                popup_3ffe43f8039c83943dfb879b5e3ea406.setContent(html_006c2aa2a4e29bca0f2a5ae316ffa479);
+            
+        
+
+        circle_marker_3b06ae34a1bff4941fa46ef22453db82.bindPopup(popup_3ffe43f8039c83943dfb879b5e3ea406)
+        ;
+
+        
+    
+    
+            feature_group_e1f5fcfbebff916ffbb018de60ee103a.addTo(map_d0de8d5ed06ccf442e2aa119e8a8cd56);
+        
+    
+            var feature_group_b268714a24519ab31926d0a74646d144 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_9cdb9412a5342c291e5152b87fb50930 = L.circleMarker(
+                [-5.21875, -40.796875],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.55, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_b268714a24519ab31926d0a74646d144);
+        
+    
+        var popup_34f0c74544f9bc1784e4a1d8dea5ce40 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d4b2995a217c79beee8f78686365930c = $(`<div id="html_d4b2995a217c79beee8f78686365930c" style="width: 100.0%; height: 100.0%;"><b>DTEC previsão</b><br/>lat=-5.2188, lon=-40.7969<br/>TP (R=10.0 km)</div>`)[0];
+                popup_34f0c74544f9bc1784e4a1d8dea5ce40.setContent(html_d4b2995a217c79beee8f78686365930c);
+            
+        
+
+        circle_marker_9cdb9412a5342c291e5152b87fb50930.bindPopup(popup_34f0c74544f9bc1784e4a1d8dea5ce40)
+        ;
+
+        
+    
+    
+            var circle_marker_b1805bda91de78acf089448364fdc005 = L.circleMarker(
+                [-5.18125, -40.703125],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.55, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_b268714a24519ab31926d0a74646d144);
+        
+    
+        var popup_49b1b19463a23f51bf2c7a8d6e5b50b4 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_5be4e52da1e0866372eee004ac5e7e83 = $(`<div id="html_5be4e52da1e0866372eee004ac5e7e83" style="width: 100.0%; height: 100.0%;"><b>DTEC previsão</b><br/>lat=-5.1813, lon=-40.7031<br/>TP (R=10.0 km)</div>`)[0];
+                popup_49b1b19463a23f51bf2c7a8d6e5b50b4.setContent(html_5be4e52da1e0866372eee004ac5e7e83);
+            
+        
+
+        circle_marker_b1805bda91de78acf089448364fdc005.bindPopup(popup_49b1b19463a23f51bf2c7a8d6e5b50b4)
+        ;
+
+        
+    
+    
+            var circle_marker_445974f7af36eacac99a1db2a5fc1347 = L.circleMarker(
+                [-4.91875, -39.796875],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.55, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_b268714a24519ab31926d0a74646d144);
+        
+    
+        var popup_ce468fed6d378df2d44d99ff61dfc5a7 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f8e12f4612399d0de74bfde12609e8e0 = $(`<div id="html_f8e12f4612399d0de74bfde12609e8e0" style="width: 100.0%; height: 100.0%;"><b>DTEC previsão</b><br/>lat=-4.9188, lon=-39.7969<br/>TP (R=10.0 km)</div>`)[0];
+                popup_ce468fed6d378df2d44d99ff61dfc5a7.setContent(html_f8e12f4612399d0de74bfde12609e8e0);
+            
+        
+
+        circle_marker_445974f7af36eacac99a1db2a5fc1347.bindPopup(popup_ce468fed6d378df2d44d99ff61dfc5a7)
+        ;
+
+        
+    
+    
+            var circle_marker_0335723ba14a998611fb7a7b80126f3c = L.circleMarker(
+                [-4.76875, -40.140625],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.55, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_b268714a24519ab31926d0a74646d144);
+        
+    
+        var popup_c7c6ffd13adc30f5866a3eb1a88e4a74 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_dd354c3d2c57c11a8784f8151d54a385 = $(`<div id="html_dd354c3d2c57c11a8784f8151d54a385" style="width: 100.0%; height: 100.0%;"><b>DTEC previsão</b><br/>lat=-4.7687, lon=-40.1406<br/>TP (R=10.0 km)</div>`)[0];
+                popup_c7c6ffd13adc30f5866a3eb1a88e4a74.setContent(html_dd354c3d2c57c11a8784f8151d54a385);
+            
+        
+
+        circle_marker_0335723ba14a998611fb7a7b80126f3c.bindPopup(popup_c7c6ffd13adc30f5866a3eb1a88e4a74)
+        ;
+
+        
+    
+    
+            var circle_marker_e86d0caafd0b44ced5b08db071974b3e = L.circleMarker(
+                [-4.73125, -40.078125],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.55, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_b268714a24519ab31926d0a74646d144);
+        
+    
+        var popup_e142947fc191a0acb0e2613fbdcd646e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_8d2acb49537002097175d0e1f67db566 = $(`<div id="html_8d2acb49537002097175d0e1f67db566" style="width: 100.0%; height: 100.0%;"><b>DTEC previsão</b><br/>lat=-4.7313, lon=-40.0781<br/>TP (R=10.0 km)</div>`)[0];
+                popup_e142947fc191a0acb0e2613fbdcd646e.setContent(html_8d2acb49537002097175d0e1f67db566);
+            
+        
+
+        circle_marker_e86d0caafd0b44ced5b08db071974b3e.bindPopup(popup_e142947fc191a0acb0e2613fbdcd646e)
+        ;
+
+        
+    
+    
+            var circle_marker_5bfa12aa4997da8087fd4cabdb49cafe = L.circleMarker(
+                [-4.58125, -40.046875],
+                {"bubblingMouseEvents": true, "color": "#238b45", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#238b45", "fillOpacity": 0.55, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_b268714a24519ab31926d0a74646d144);
+        
+    
+        var popup_006e87648c7c4dbc9c7f46f35f11c637 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_bbc2ba14b89dd7c4c1316916220025f7 = $(`<div id="html_bbc2ba14b89dd7c4c1316916220025f7" style="width: 100.0%; height: 100.0%;"><b>DTEC previsão</b><br/>lat=-4.5812, lon=-40.0469<br/>TP (R=10.0 km)</div>`)[0];
+                popup_006e87648c7c4dbc9c7f46f35f11c637.setContent(html_bbc2ba14b89dd7c4c1316916220025f7);
+            
+        
+
+        circle_marker_5bfa12aa4997da8087fd4cabdb49cafe.bindPopup(popup_006e87648c7c4dbc9c7f46f35f11c637)
+        ;
+
+        
+    
+    
+            feature_group_b268714a24519ab31926d0a74646d144.addTo(map_d0de8d5ed06ccf442e2aa119e8a8cd56);
+        
+    
+            var feature_group_249a3bab164b6802a34ffaefbede3beb = L.featureGroup(
+                {
+}
+            );
+        
+    
+            feature_group_249a3bab164b6802a34ffaefbede3beb.addTo(map_d0de8d5ed06ccf442e2aa119e8a8cd56);
+        
+    
+            var layer_control_08bfd037ce549e850d61bf8747d905f1_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_678305758926825a71c34b092f835066,
+                },
+                overlays :  {
+                    "INPE foco (TP): 21" : feature_group_82c73bf633898b71424c69eb04fcbb3f,
+                    "INPE foco (FN): 55" : feature_group_e1f5fcfbebff916ffbb018de60ee103a,
+                    "DTEC previs\u00e3o (TP): 6" : feature_group_b268714a24519ab31926d0a74646d144,
+                    "DTEC previs\u00e3o (FP): 0" : feature_group_249a3bab164b6802a34ffaefbede3beb,
+                },
+            };
+            let layer_control_08bfd037ce549e850d61bf8747d905f1 = L.control.layers(
+                layer_control_08bfd037ce549e850d61bf8747d905f1_layers.base_layers,
+                layer_control_08bfd037ce549e850d61bf8747d905f1_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_d0de8d5ed06ccf442e2aa119e8a8cd56);
+
+        
+</script>
+</html>

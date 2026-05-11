@@ -516,14 +516,39 @@ class DayEvalResult:
     hours_utc_used: List[int] = field(default_factory=list)
 
 
-def find_local_goes_nc(raw_dir: Path, day_utc: date, channel: int = 13) -> Path:
+def find_local_goes_nc(
+    raw_dir: Path,
+    day_utc: date,
+    channel: int = 13,
+    hour: Optional[int] = None,
+) -> Path:
+    """
+    Localiza NetCDF GOES por dia (e opcional hora) e canal.
+
+    Quando ``hour`` é dado, filtra por tag ``_s{YYYY}{DOY}{HH}`` — corrige
+    o bug em que, com ``--skip-download``, várias horas reutilizavam o mesmo
+    granulo (e portanto a "persistência" multi-hora era artificial).
+    """
     raw_dir = Path(raw_dir)
     doy = datetime(day_utc.year, day_utc.month, day_utc.day).timetuple().tm_yday
-    tag = f"_s{day_utc.year}{doy:03d}"
+    if hour is None:
+        tag = f"_s{day_utc.year}{doy:03d}"
+    else:
+        tag = f"_s{day_utc.year}{doy:03d}{int(hour):02d}"
     tag_ch = f"M6C{channel:02d}"
     for p in sorted(raw_dir.glob("*.nc")):
         if tag in p.name and tag_ch in p.name:
             return p
+    if hour is not None:
+        tag_day = f"_s{day_utc.year}{doy:03d}"
+        for p in sorted(raw_dir.glob("*.nc")):
+            if tag_day in p.name and tag_ch in p.name:
+                warnings.warn(
+                    f"Hora {hour:02d}h em {day_utc} indisponível no canal {channel}; "
+                    f"a usar {p.name} como fallback.",
+                    stacklevel=2,
+                )
+                return p
     raise FileNotFoundError(
         f"Nenhum NetCDF em {raw_dir} com '{tag}' e canal '{tag_ch}' (--skip-download)."
     )
@@ -565,19 +590,12 @@ def collect_hourly_band_grids(
     hourly: List[Dict[int, np.ndarray]] = []
     nc_refs: List[str] = []
 
-    if skip_download and len(hours_utc) > 1:
-        warnings.warn(
-            "Com --skip-download só é garantido um granulo por dia/canal; "
-            "use uma hora ou ficheiros locais para todas as horas.",
-            stacklevel=2,
-        )
-
     for hour in hours_utc:
         when = datetime(day_utc.year, day_utc.month, day_utc.day, int(hour), tzinfo=timezone.utc)
         slot: Dict[int, np.ndarray] = {}
         for ch in channels:
             if skip_download:
-                path = find_local_goes_nc(raw_dir, day_utc, ch)
+                path = find_local_goes_nc(raw_dir, day_utc, ch, hour=int(hour))
             else:
                 path = ensure_goes_netcdf(when, ch, raw_dir, overwrite=overwrite, show_progress=show_progress)
             nc_refs.append(str(path))
